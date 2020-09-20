@@ -9,4 +9,9 @@ export type UserType {
 	dateOfBirth?: Date,
 	activityStatus?: boolean,
 	chatRooms?: Array<string>,
-}
+};
+
+export type Credentials {
+	emailOrUserName: string,
+	password: string
+};

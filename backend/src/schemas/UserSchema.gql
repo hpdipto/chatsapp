@@ -24,6 +24,11 @@ input registerUser {
 	chatRooms: [String]
 }
 
+input inputCredential {
+	emailOrUserName: String!
+	password: String!
+}
+
 # Queries and Mutation
 
 type Query {
@@ -32,4 +37,5 @@ type Query {
 
 type Mutation {
 	registerUser(user: registerUser): User
+	loginUser(credential: inputCredential): User
 }
