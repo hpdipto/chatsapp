@@ -1,0 +1,35 @@
+type User {
+	firstName: String!
+	lastName: String!
+	email: String!
+	username: String!
+	password: String
+	password2: String
+	gender: String
+	dateOfBirth: String
+	activityStatus: Boolean
+	chatRooms: [String]
+}
+
+input registerUser {
+	firstName: String!
+	lastName: String!
+	email: String!
+	username: String!
+	password: String!
+	password2: String!
+	gender: String
+	dateOfBirth: String
+	activityStatus: Boolean
+	chatRooms: [String]
+}
+
+# Queries and Mutation
+
+type Query {
+	hello: String
+}
+
+type Mutation {
+	registerUser(user: registerUser): User
+}
