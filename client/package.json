@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "Frontend for ChatsApp",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next build && next export && cp -R ./.next/static ./out/_next/static/",
+    "type-check": "tsc"
+  },
+  "author": "Haris Pasha Dipto",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/client": "^3.2.0",
+    "@types/node": "^14.11.1",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "bootstrap": "^4.5.2",
+    "graphql": "^15.3.0",
+    "next": "^9.5.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "typescript": "^4.0.3"
+  }
+}
