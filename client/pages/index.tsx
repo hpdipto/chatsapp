@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
 
 import Login from "./login";
+import Register from "./register";
 
 const client = new ApolloClient({
 	uri: "http://localhost:5000/graphql",
@@ -26,7 +27,8 @@ const Index: React.FC = () => {
 				<nav className="navbar navbar-dark bg-primary">
 					<h2>ChatsApp</h2>
 				</nav>
-				<Login />
+				{/*<Login />*/}
+				<Register />
 			</div>
 		</ApolloProvider>
 	);

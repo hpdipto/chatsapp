@@ -1,0 +1,9 @@
+/* https://stackoverflow.com/questions/51710700/react-datepicker-input-width-will-not-adjust-to-100 */
+
+.react-datepicker__input-container {
+	width: inherit;
+}
+
+.react-datepicker-wrapper {
+	width: 100%;
+}
