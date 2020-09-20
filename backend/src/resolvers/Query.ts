@@ -1,9 +1,11 @@
-const hello = () => {
-	return "hello world";
+import { User } from "../models/User";
+
+const allUser = () => {
+	return User.find({});
 };
 
 const Query = {
-	hello,
+	allUser,
 };
 
 export default Query;

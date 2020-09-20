@@ -27,7 +27,7 @@ input registerUser {
 # Queries and Mutation
 
 type Query {
-	hello: String
+	allUser: [User]
 }
 
 type Mutation {
