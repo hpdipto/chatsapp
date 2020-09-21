@@ -27,8 +27,8 @@ const Index: React.FC = () => {
 				<nav className="navbar navbar-dark bg-primary">
 					<h2>ChatsApp</h2>
 				</nav>
-				{/*<Login />*/}
-				<Register />
+				<Login />
+				{/*<Register />*/}
 			</div>
 		</ApolloProvider>
 	);

@@ -1,31 +1,55 @@
 import * as React from "react";
 import { useMutation } from "@apollo/client";
+import { useFormik } from "formik";
 
 import { LoginQuery } from "../queries/login";
 
 const Login: React.FC = () => {
-	const [emailOrUserName, setEmailOrUserName] = React.useState("");
-	const [password, setPassword] = React.useState("");
+	const [errorMessages, setErrorMessages] = React.useState([]);
 
-	const [login, { loading, data }] = useMutation(LoginQuery, {
-		onCompleted: (data) => console.log(data),
-	});
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		login({ variables: { emailOrUserName, password } });
+	const validate = (values: any) => {
+		if (!values.emailOrUsername) {
+			setErrorMessages((em) => [...em, "Please provide an email or username"]);
+		}
+		if (!values.password) {
+			setErrorMessages((em) => [...em, "Please provide a password"]);
+		}
 	};
+
+	const formik = useFormik({
+		initialValues: {
+			emailOrUsername: "",
+			password: "",
+		},
+		validate,
+		validateOnChange: false,
+		validateOnBlur: false,
+		onSubmit: (values) => {
+			let loginUser = {
+				...values,
+			};
+
+			if (errorMessages.length > 0) {
+				console.log(errorMessages);
+				setErrorMessages((em) => []);
+			}
+
+			console.log(loginUser);
+		},
+	});
 
 	return (
 		<div className="container mt-3 col-sm-8">
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={formik.handleSubmit}>
 				<div className="form-group row">
 					<label htmlFor="emailOrUsername" className="col-sm-3">
 						Email or Username
 					</label>
 					<input
 						type="text"
-						onChange={(e) => setEmailOrUserName(e.target.value)}
+						id="emailOrUsername"
+						value={formik.values.emailOrUserName}
+						onChange={formik.handleChange}
 						className="form-control col-sm-9 mb-3"
 					/>
 					<label htmlFor="password" className="col-sm-3">
@@ -33,7 +57,9 @@ const Login: React.FC = () => {
 					</label>
 					<input
 						type="password"
-						onChange={(e) => setPassword(e.target.value)}
+						id="password"
+						value={formik.values.password}
+						onChange={formik.handleChange}
 						className="form-control col-sm-9 mb-3"
 					/>
 					<label htmlFor="empty" className="col-sm-3"></label>
