@@ -24,6 +24,15 @@ const Register: React.FC = () => {
 		if (!values.password2) {
 			setErrorMessages((em) => [...em, "Please enter Password again"]);
 		}
+		if (values.password.length < 6 || values.password2.length < 6) {
+			setErrorMessages((em) => [
+				...em,
+				"Password should contains at least 6 characters",
+			]);
+		}
+		if (values.password !== values.password2) {
+			setErrorMessages((em) => [...em, "Password should be matched"]);
+		}
 	};
 
 	const formik = useFormik({
