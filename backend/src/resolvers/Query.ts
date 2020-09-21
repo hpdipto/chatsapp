@@ -1,6 +1,6 @@
 import { User } from "../models/User";
 
-const allUser = () => {
+const allUser = (parent: any, args: any, context: any) => {
 	return User.find({});
 };
 
