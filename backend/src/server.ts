@@ -67,6 +67,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // login route, can't handle it on graphql
+// reference: https://stackoverflow.com/a/57540210/9481106
 app.post("/authenticate", (req: Request, res: Response, next: NextFunction) => {
 	passport.authenticate("local", (e, user, info) => {
 		if (e) return next(e);
