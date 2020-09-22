@@ -6,13 +6,20 @@ import { Provider, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
 import { LoginQuery } from "../queries/login";
 
-import store from "../redux/store";
+// import useStore from "../redux/store";
 import { LoginAction } from "../redux/actions/authActions";
 
-const Login: React.FC = () => {
-	const dispatch = useDispatch();
+type ChildProps = {
+	auth: {
+		isAuthenticatd: boolean;
+		user: any;
+	};
+};
 
+const Login: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
+
+	const dispatch = useDispatch();
 
 	const validate = (values: any) => {
 		if (!values.emailOrUserName) {
@@ -41,7 +48,6 @@ const Login: React.FC = () => {
 				setErrorMessages((em) => []);
 			} else {
 				dispatch(LoginAction(loginUser));
-				console.log(store.getState());
 			}
 		},
 	});

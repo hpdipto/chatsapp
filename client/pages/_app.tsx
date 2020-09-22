@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import { createWrapper } from "next-redux-wrapper";
 import { Provider } from "react-redux";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,4 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	);
 }
 
-export default MyApp;
+const makeStore = () => store;
+const wrapper = createWrapper(makeStore);
+
+export default wrapper.withRedux(MyApp);
