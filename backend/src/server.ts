@@ -3,6 +3,7 @@ import path from "path";
 import express, { Application, Request, Response, NextFunction } from "express";
 import { ApolloServer } from "apollo-server-express";
 import morgan from "morgan";
+import cors from "cors";
 import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
@@ -20,6 +21,9 @@ mongoose
 
 // Express App setup
 const app: Application = express();
+
+// Cors
+app.use(cors());
 
 // Express session
 app.use(

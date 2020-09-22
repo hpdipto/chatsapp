@@ -1,15 +1,21 @@
 import * as React from "react";
 import { useMutation } from "@apollo/client";
 import { useFormik } from "formik";
+import { Provider, useDispatch } from "react-redux";
 
 import Navbar from "../components/Navbar";
 import { LoginQuery } from "../queries/login";
 
+import store from "../redux/store";
+import { LoginAction } from "../redux/actions/authActions";
+
 const Login: React.FC = () => {
+	const dispatch = useDispatch();
+
 	const [errorMessages, setErrorMessages] = React.useState([]);
 
 	const validate = (values: any) => {
-		if (!values.emailOrUsername) {
+		if (!values.emailOrUserName) {
 			setErrorMessages((em) => [...em, "Please provide an email or username"]);
 		}
 		if (!values.password) {
@@ -19,7 +25,7 @@ const Login: React.FC = () => {
 
 	const formik = useFormik({
 		initialValues: {
-			emailOrUsername: "",
+			emailOrUserName: "",
 			password: "",
 		},
 		validate,
@@ -33,9 +39,10 @@ const Login: React.FC = () => {
 			if (errorMessages.length > 0) {
 				console.log(errorMessages);
 				setErrorMessages((em) => []);
+			} else {
+				dispatch(LoginAction(loginUser));
+				console.log(store.getState());
 			}
-
-			console.log(loginUser);
 		},
 	});
 
@@ -50,7 +57,7 @@ const Login: React.FC = () => {
 						</label>
 						<input
 							type="text"
-							id="emailOrUsername"
+							id="emailOrUserName"
 							value={formik.values.emailOrUserName}
 							onChange={formik.handleChange}
 							className="form-control col-sm-9 mb-3"
