@@ -7,6 +7,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
+import ConnectMongo from "connect-mongo";
 
 // Passport Configuration
 import passportConfig from "./config/passport.config";
@@ -25,6 +26,9 @@ const app: Application = express();
 // Cors
 app.use(cors());
 
+// Connect mongo initialization
+var MongoStore = ConnectMongo(session);
+
 // Express session
 app.use(
 	session({
@@ -32,6 +36,7 @@ app.use(
 		saveUninitialized: true,
 		resave: false,
 		cookie: { sameSite: "strict", secure: false },
+		store: new MongoStore({ mongooseConnection: mongoose.connection }),
 	})
 );
 
