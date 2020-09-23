@@ -83,7 +83,8 @@ app.post("/authenticate", (req: Request, res: Response, next: NextFunction) => {
 		if (info) return res.send(info);
 		req.logIn(user, (e) => {
 			if (e) return next(e);
-			res.send(user);
+			// only sending userId
+			res.send(user.id);
 		});
 	})(req, res, next);
 });
