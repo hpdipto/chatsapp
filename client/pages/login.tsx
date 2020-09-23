@@ -25,7 +25,6 @@ const Login: React.FC = () => {
 	const [refresh, setRefresh] = React.useState(false);
 
 	React.useEffect(() => {
-		console.log(isAuthenticated, isLoading);
 		if (isAuthenticated) {
 			router.push("/");
 		}

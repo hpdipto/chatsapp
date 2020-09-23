@@ -21,7 +21,7 @@ export const LoginAction = (loginData) => (dispatch) => {
 			if (!res.data.hasOwnProperty("message")) {
 				return dispatch({
 					type: LOGIN_SUCCESS,
-					payload: res.data._id,
+					payload: res.data,
 				});
 			} else {
 				return dispatch({
