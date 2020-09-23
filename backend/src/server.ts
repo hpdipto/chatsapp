@@ -8,6 +8,10 @@ import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
 import ConnectMongo from "connect-mongo";
+// import ejs from "ejs";
+
+// Connect mongo initialization
+var MongoStore = ConnectMongo(session);
 
 // Passport Configuration
 import passportConfig from "./config/passport.config";
@@ -16,7 +20,11 @@ passportConfig();
 // DB Configuration
 const URI: string = "mongodb://localhost/ChaptsApp";
 mongoose
-	.connect(URI, { useNewUrlParser: true })
+	.connect(URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	})
 	.then(() => console.log(`MongoDB connected successfully!`))
 	.catch((err) => console.log(err));
 
@@ -26,22 +34,23 @@ const app: Application = express();
 // Cors
 app.use(cors());
 
-// Connect mongo initialization
-var MongoStore = ConnectMongo(session);
+// Body parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Static folder
+// app.use(express.static("public"));
+// app.set("view engine", "ejs");
 
 // Express session
 app.use(
 	session({
 		secret: "SSHHH!!!",
-		saveUninitialized: true,
+		saveUninitialized: false,
 		resave: false,
-		cookie: { sameSite: "strict", secure: false },
 		store: new MongoStore({ mongooseConnection: mongoose.connection }),
 	})
 );
-
-// Body parser
-app.use(express.json());
 
 // Passport middleware
 app.use(passport.initialize());
@@ -73,6 +82,7 @@ server.applyMiddleware({ app, path: "/graphql" });
 // Home route
 app.get("/", (req: Request, res: Response) => {
 	res.send("Welcome to ChaptsApp");
+	// res.render("home");
 });
 
 // login route, can't handle it on graphql

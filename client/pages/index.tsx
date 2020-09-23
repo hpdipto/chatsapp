@@ -14,6 +14,9 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
+// eable axios cookies
+axios.defaults.withCredentials = true;
+
 const Index: React.FC = () => {
 	const { user } = useSelector((state) => state.auth);
 	const [userId, setUseId] = React.useState(user);
@@ -23,8 +26,9 @@ const Index: React.FC = () => {
 			axios
 				.get("http://localhost:5000/user")
 				.then((res) => {
-					if (res.data.hasOwnProperty("passport"))
+					if (res.data.hasOwnProperty("passport")) {
 						setUseId(res.data.passport.user);
+					}
 				})
 				.catch((err) => console.log(err));
 		}
