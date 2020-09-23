@@ -1,12 +1,13 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { useFormik } from "formik";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
 import { LoginQuery } from "../queries/login";
 
-// import useStore from "../redux/store";
+import store from "../redux/store";
 import { LoginAction } from "../redux/actions/authActions";
 
 type ChildProps = {
@@ -17,9 +18,18 @@ type ChildProps = {
 };
 
 const Login: React.FC = () => {
-	const [errorMessages, setErrorMessages] = React.useState([]);
-
+	const router = useRouter();
 	const dispatch = useDispatch();
+	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [refresh, setRefresh] = React.useState(false);
+
+	React.useEffect(() => {
+		console.log(isAuthenticated, isLoading);
+		if (isAuthenticated) {
+			router.push("/");
+		}
+	}, [isAuthenticated, isLoading]);
 
 	const validate = (values: any) => {
 		if (!values.emailOrUserName) {
@@ -38,7 +48,7 @@ const Login: React.FC = () => {
 		validate,
 		validateOnChange: false,
 		validateOnBlur: false,
-		onSubmit: (values) => {
+		onSubmit: async (values) => {
 			let loginUser = {
 				...values,
 			};
@@ -48,6 +58,7 @@ const Login: React.FC = () => {
 				setErrorMessages((em) => []);
 			} else {
 				dispatch(LoginAction(loginUser));
+				// setTimeout(setRefresh(true), 200);
 			}
 		},
 	});

@@ -8,4 +8,5 @@ export const LOGIN_FAIL = "login_fail";
 export const SHOW_FLASH_MESSAGES = "show_flash_messages";
 
 export const LOAD_USER = "load_user";
+export const USER_LOADING = "loading_user";
 export const USER_LOADED = "user_loaded";

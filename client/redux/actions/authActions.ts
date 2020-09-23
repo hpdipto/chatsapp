@@ -7,9 +7,13 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
 	USER_LOADED,
+	USER_LOADING,
 } from "./types";
 
 export const LoginAction = (loginData) => (dispatch) => {
+	// this one line takes many of my time :(
+	dispatch({ type: USER_LOADING });
+
 	axios
 		.post("http://localhost:5000/authenticate", loginData)
 		.then((res) => {
@@ -17,7 +21,7 @@ export const LoginAction = (loginData) => (dispatch) => {
 			if (!res.data.hasOwnProperty("message")) {
 				return dispatch({
 					type: LOGIN_SUCCESS,
-					payload: res.data,
+					payload: res.data._id,
 				});
 			} else {
 				return dispatch({
