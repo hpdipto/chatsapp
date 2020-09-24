@@ -1,5 +1,6 @@
 import passport from "passport";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 import { User } from "../models/User";
 import { UserType, Credentials } from "../TYPES";
 
@@ -9,6 +10,7 @@ const registerUser = (parent: any, args: { user: UserType }) => {
 		...args.user,
 		password: bcrypt.hashSync(args.user.password, 11),
 		password2: bcrypt.hashSync(args.user.password2, 11),
+		queryKey: uuidv4(),
 	});
 
 	return newUser.save();

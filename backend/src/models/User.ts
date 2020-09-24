@@ -30,6 +30,10 @@ const UserSchema: mongoose.Schema<UserType> = new Schema({
 		type: String,
 		required: true,
 	},
+	queryKey: {
+		type: String,
+		required: true,
+	},
 	gender: {
 		type: String,
 	},
