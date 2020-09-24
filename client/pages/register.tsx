@@ -11,6 +11,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { RegistrationSuccess } from "../redux/actions/authActions";
 
 import Navbar from "../components/Navbar";
+import { ErrorMessages } from "../components/FlashMessages";
 
 const Register: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
@@ -74,14 +75,9 @@ const Register: React.FC = () => {
 				...values,
 			};
 
-			if (errorMessages.length > 0) {
-				console.log(errorMessages);
-				setErrorMessages((em) => []);
-			} else {
-				console.log(newUser);
-				// const {}
+			if (errorMessages.length === 0) {
+				// console.log(newUser);
 				registerUser({ variables: newUser });
-				setTimeout(() => console.log(data), 200);
 			}
 		},
 	});
@@ -89,6 +85,12 @@ const Register: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
+			{errorMessages.length && (
+				<ErrorMessages
+					messages={errorMessages}
+					setMessages={setErrorMessages}
+				/>
+			)}
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
