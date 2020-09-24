@@ -1,26 +1,41 @@
 import * as React from "react";
 
-export const SuccessMessage: React.FC<{ message: string }> = ({
-	message,
+export const SuccessMessages: React.FC<{
+	messages: Array<string>;
+	setMessages: any;
+}> = ({
+	messages,
+	setMessages,
 }: {
-	message: string;
+	messages: Array<string>;
+	setMessages: any;
 }) => {
+	const removeMessage = (messages: any, index: number) => {
+		var msg = [...messages];
+		msg.splice(index, 1);
+		return msg;
+	};
+
 	return (
 		<div className="mt-2">
-			<div
-				className="alert alert-success alert-dismissible fade show container col-sm-8"
-				role="alert"
-			>
-				{message}
-				<button
-					type="button"
-					className="close"
-					data-dismiss="alert"
-					aria-label="Close"
+			{messages.map((message, index) => (
+				<div
+					className="alert alert-success alert-dismissible fade show container col-sm-8"
+					role="alert"
+					key={index}
 				>
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
+					{message}
+					<button
+						type="button"
+						className="close"
+						data-dismiss="alert"
+						aria-label="Close"
+						onClick={() => setMessages((msg) => removeMessage(msg, index))}
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			))}
 		</div>
 	);
 };
