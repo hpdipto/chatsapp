@@ -1,11 +1,29 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import { useFormik } from "formik";
+import { useQuery, useMutation } from "@apollo/client";
+
+import { RegisterQuery } from "../queries/register";
+
+import store from "../redux/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { RegistrationSuccess } from "../redux/actions/authActions";
 
 import Navbar from "../components/Navbar";
 
 const Register: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
+	const dispatch = useDispatch();
+	const router = useRouter();
+
+	const [registerUser, { data }] = useMutation(RegisterQuery, {
+		ignoreResults: false,
+		onCompleted: (data) => {
+			dispatch(RegistrationSuccess());
+			router.push("/login");
+		},
+	});
 
 	const validate = (values: any) => {
 		if (!values.firstName) {
@@ -46,7 +64,7 @@ const Register: React.FC = () => {
 			password: "",
 			password2: "",
 			gender: "",
-			dob: "",
+			dateOfBirth: "",
 		},
 		validate,
 		validateOnChange: false,
@@ -59,8 +77,12 @@ const Register: React.FC = () => {
 			if (errorMessages.length > 0) {
 				console.log(errorMessages);
 				setErrorMessages((em) => []);
+			} else {
+				console.log(newUser);
+				// const {}
+				registerUser({ variables: newUser });
+				setTimeout(() => console.log(data), 200);
 			}
-			console.log(newUser);
 		},
 	});
 
@@ -92,17 +114,6 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
-						<label htmlFor="username" className="col-sm-3">
-							Username
-						</label>
-						<input
-							type="text"
-							className="form-control col-sm-9 mb-3"
-							id="username"
-							value={formik.values.username}
-							onChange={formik.handleChange}
-						/>
-
 						<label htmlFor="email" className="col-sm-3">
 							Email
 						</label>
@@ -111,6 +122,17 @@ const Register: React.FC = () => {
 							className="form-control col-sm-9 mb-3"
 							id="email"
 							value={formik.values.email}
+							onChange={formik.handleChange}
+						/>
+
+						<label htmlFor="username" className="col-sm-3">
+							Username
+						</label>
+						<input
+							type="text"
+							className="form-control col-sm-9 mb-3"
+							id="username"
+							value={formik.values.username}
 							onChange={formik.handleChange}
 						/>
 
@@ -159,9 +181,9 @@ const Register: React.FC = () => {
 							<DatePicker
 								className="form-control col-sm"
 								id="dob"
-								value={formik.values.dob}
-								selected={formik.values.dob}
-								onChange={(date) => formik.setFieldValue("dob", date)}
+								value={formik.values.dateOfBirth}
+								selected={formik.values.dateOfBirth}
+								onChange={(date) => formik.setFieldValue("dateOfBirth", date)}
 							/>
 						</div>
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import {
+	RESIGTSER_SUCCESS,
 	REGISTER_USER,
 	REGISTER_FAIL,
 	LOGIN_USER,
@@ -8,6 +9,7 @@ import {
 	LOGIN_FAIL,
 	USER_LOADED,
 	USER_LOADING,
+	CLOSE_FLASH_MESSAGE,
 } from "./types";
 
 export const LoginAction = (loginData) => (dispatch) => {
@@ -35,4 +37,12 @@ export const LoginAction = (loginData) => (dispatch) => {
 				type: LOGIN_FAIL,
 			})
 		);
+};
+
+export const RegistrationSuccess = () => (dispatch) => {
+	dispatch({ type: RESIGTSER_SUCCESS });
+};
+
+export const RegistrationSuccessClose = () => (dispatch) => {
+	dispatch({ type: CLOSE_FLASH_MESSAGE });
 };

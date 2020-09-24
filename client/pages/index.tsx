@@ -3,8 +3,12 @@ import axios from "axios";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useSelector } from "react-redux";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client";
+import {
+	ApolloProvider,
+	ApolloClient,
+	InMemoryCache,
+	useQuery,
+} from "@apollo/client";
 
 import Login from "./login";
 import Register from "./register";
@@ -23,6 +27,7 @@ const Index: React.FC = () => {
 
 	React.useState(() => {
 		if (!userId) {
+			// need to change here
 			axios
 				.get("http://localhost:5000/user")
 				.then((res) => {

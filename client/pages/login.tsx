@@ -5,10 +5,15 @@ import { useFormik } from "formik";
 import { Provider, useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
+import { SuccessMessage } from "../components/FlashMessages";
+
 import { LoginQuery } from "../queries/login";
 
 import store from "../redux/store";
-import { LoginAction } from "../redux/actions/authActions";
+import {
+	LoginAction,
+	RegistrationSuccessClose,
+} from "../redux/actions/authActions";
 
 type ChildProps = {
 	auth: {
@@ -21,6 +26,7 @@ const Login: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+	const { closeFlashMessage } = useSelector((state) => state.regSucc);
 	const [errorMessages, setErrorMessages] = React.useState([]);
 	const [refresh, setRefresh] = React.useState(false);
 
@@ -28,7 +34,11 @@ const Login: React.FC = () => {
 		if (isAuthenticated) {
 			router.push("/");
 		}
-	}, [isAuthenticated, isLoading]);
+
+		setTimeout(() => {
+			dispatch(RegistrationSuccessClose());
+		}, 10000);
+	}, [isAuthenticated, isLoading, closeFlashMessage]);
 
 	const validate = (values: any) => {
 		if (!values.emailOrUserName) {
@@ -65,6 +75,11 @@ const Login: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
+			{!closeFlashMessage && (
+				<SuccessMessage
+					message={"Registration Success. Please Login to continue."}
+				/>
+			)}
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
