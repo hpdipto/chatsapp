@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { Provider, useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
-import { SuccessMessages } from "../components/FlashMessages";
+import { SuccessMessages, ErrorMessages } from "../components/FlashMessages";
 
 import { LoginQuery } from "../queries/login";
 
@@ -21,7 +21,9 @@ const Login: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
 	const [successMessages, setSuccessMessages] = React.useState([]);
 	const [refresh, setRefresh] = React.useState(false);
-	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+	const { isAuthenticated, isLoading, message } = useSelector(
+		(state) => state.auth
+	);
 	const { registerSuccess } = useSelector((state) => state.regSuccess);
 
 	React.useEffect(() => {
@@ -35,6 +37,11 @@ const Login: React.FC = () => {
 				"Registration successfully completed. Please Login to continue.",
 			]);
 			RegisterSuccessShown();
+		}
+
+		// error messages if something goes wrong in server side
+		if (message) {
+			setErrorMessages((msg) => [message]);
 		}
 	}, [isAuthenticated, isLoading]);
 
@@ -62,7 +69,7 @@ const Login: React.FC = () => {
 
 			if (errorMessages.length > 0) {
 				console.log(errorMessages);
-				setErrorMessages((em) => []);
+				// setErrorMessages((em) => []);
 			} else {
 				dispatch(LoginAction(loginUser));
 			}
@@ -72,12 +79,18 @@ const Login: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
-			{successMessages.length && (
+			{successMessages.length ? (
 				<SuccessMessages
 					messages={["Registration Success. Please Login to continue."]}
 					setMessages={setSuccessMessages}
 				/>
-			)}
+			) : null}
+			{errorMessages.length ? (
+				<ErrorMessages
+					messages={errorMessages}
+					setMessages={setErrorMessages}
+				/>
+			) : null}
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">

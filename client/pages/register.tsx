@@ -76,7 +76,6 @@ const Register: React.FC = () => {
 			};
 
 			if (errorMessages.length === 0) {
-				// console.log(newUser);
 				registerUser({ variables: newUser });
 			}
 		},
@@ -85,12 +84,12 @@ const Register: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
-			{errorMessages.length && (
+			{errorMessages.length ? (
 				<ErrorMessages
 					messages={errorMessages}
 					setMessages={setErrorMessages}
 				/>
-			)}
+			) : null}
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
