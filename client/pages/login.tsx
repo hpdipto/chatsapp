@@ -5,40 +5,38 @@ import { useFormik } from "formik";
 import { Provider, useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
-import { SuccessMessage } from "../components/FlashMessages";
+import { SuccessMessages } from "../components/FlashMessages";
 
 import { LoginQuery } from "../queries/login";
 
 import store from "../redux/store";
 import {
 	LoginAction,
-	RegistrationSuccessClose,
+	RegisterSuccessShown,
 } from "../redux/actions/authActions";
-
-type ChildProps = {
-	auth: {
-		isAuthenticatd: boolean;
-		user: any;
-	};
-};
 
 const Login: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
-	const { closeFlashMessage } = useSelector((state) => state.regSucc);
 	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [successMessages, setSuccessMessages] = React.useState([]);
 	const [refresh, setRefresh] = React.useState(false);
+	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+	const { registerSuccess } = useSelector((state) => state.regSuccess);
 
 	React.useEffect(() => {
 		if (isAuthenticated) {
 			router.push("/");
 		}
 
-		setTimeout(() => {
-			dispatch(RegistrationSuccessClose());
-		}, 10000);
-	}, [isAuthenticated, isLoading, closeFlashMessage]);
+		if (registerSuccess) {
+			setSuccessMessages((msg) => [
+				...msg,
+				"Registration successfully completed. Please Login to continue.",
+			]);
+			RegisterSuccessShown();
+		}
+	}, [isAuthenticated, isLoading]);
 
 	const validate = (values: any) => {
 		if (!values.emailOrUserName) {
@@ -67,7 +65,6 @@ const Login: React.FC = () => {
 				setErrorMessages((em) => []);
 			} else {
 				dispatch(LoginAction(loginUser));
-				// setTimeout(setRefresh(true), 200);
 			}
 		},
 	});
@@ -75,9 +72,10 @@ const Login: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
-			{!closeFlashMessage && (
-				<SuccessMessage
-					message={"Registration Success. Please Login to continue."}
+			{successMessages.length && (
+				<SuccessMessages
+					messages={["Registration Success. Please Login to continue."]}
+					setMessages={setSuccessMessages}
 				/>
 			)}
 			<div className="container mt-3 col-sm-8">

@@ -5,5 +5,5 @@ import regSuccessReducer from "./regReducer";
 
 export default combineReducers({
 	auth: authReducer,
-	regSucc: regSuccessReducer,
+	regSuccess: regSuccessReducer,
 });

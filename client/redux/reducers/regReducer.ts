@@ -1,4 +1,4 @@
-import { RESIGTSER_SUCCESS, CLOSE_FLASH_MESSAGE } from "../actions/types";
+import { RESIGTSER_SUCCESS, REGISTER_SUCCESS_SHOWN } from "../actions/types";
 
 type actionType = {
 	type: string;
@@ -7,7 +7,6 @@ type actionType = {
 
 const initialState = {
 	registerSuccess: false,
-	closeFlashMessage: true,
 };
 
 const regSuccessReducer = (state = initialState, action) => {
@@ -16,14 +15,12 @@ const regSuccessReducer = (state = initialState, action) => {
 			return {
 				...state,
 				registerSuccess: true,
-				closeFlashMessage: false,
 			};
-		case CLOSE_FLASH_MESSAGE: {
+		case REGISTER_SUCCESS_SHOWN:
 			return {
 				...state,
-				closeFlashMessage: true,
+				registerSuccess: false,
 			};
-		}
 		default:
 			return {
 				...state,
