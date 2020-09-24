@@ -93,8 +93,8 @@ app.post("/authenticate", (req: Request, res: Response, next: NextFunction) => {
 		if (info) return res.send(info);
 		req.logIn(user, (e) => {
 			if (e) return next(e);
-			// only sending userId
-			res.send(user.id);
+			// only sending userId and queryKey
+			res.json({ id: user.id, queryKey: user.queryKey });
 		});
 	})(req, res, next);
 });
