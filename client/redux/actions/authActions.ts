@@ -13,17 +13,19 @@ import {
 } from "./types";
 
 export const LoginAction = (loginData) => (dispatch) => {
-	// this one line takes many of my time :(
+	// missing this one line takes many of my time :(
 	dispatch({ type: USER_LOADING });
 
 	axios
-		.post("http://localhost:5000/authenticate", loginData)
+		.post("http://localhost:5000/authenticate", loginData, {
+			withCredentials: true,
+		})
 		.then((res) => {
 			// if login failed, object will have "message" property
 			if (!res.data.hasOwnProperty("message")) {
 				return dispatch({
 					type: LOGIN_SUCCESS,
-					payload: res.data,
+					// payload: res.data,
 				});
 			} else {
 				return dispatch({

@@ -8,7 +8,7 @@ type actionType = {
 const initialState = {
 	isLoading: false,
 	isAuthenticated: false,
-	user: null,
+	// user: null,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -16,7 +16,7 @@ const AuthReducer = (state = initialState, action) => {
 		case LOGIN_SUCCESS:
 			return {
 				...state,
-				user: action.payload,
+				// user: action.payload,
 				isAuthenticated: true,
 				isLoading: false,
 			};

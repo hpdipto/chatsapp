@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
 import ConnectMongo from "connect-mongo";
-// import ejs from "ejs";
 
 // Connect mongo initialization
 var MongoStore = ConnectMongo(session);
@@ -32,15 +31,17 @@ mongoose
 const app: Application = express();
 
 // Cors
-app.use(cors());
+// The gem for CORS setup: https://stackoverflow.com/a/46412839/9481106
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-// Static folder
-// app.use(express.static("public"));
-// app.set("view engine", "ejs");
 
 // Express session
 app.use(
@@ -59,7 +60,7 @@ app.use(passport.session());
 // Morgan middleware
 app.use(morgan("dev"));
 
-// // context
+// context for apollo server - may be won't need
 const authenticator = (req: Request, res: Response, next: NextFunction) => ({
 	req,
 });
@@ -82,7 +83,6 @@ server.applyMiddleware({ app, path: "/graphql" });
 // Home route
 app.get("/", (req: Request, res: Response) => {
 	res.send("Welcome to ChaptsApp");
-	// res.render("home");
 });
 
 // login route, can't handle it on graphql
