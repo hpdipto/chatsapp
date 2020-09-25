@@ -19,6 +19,10 @@ const Login: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [
+		errorMessagesForRendering,
+		setErrorMessagesForRendering,
+	] = React.useState([]);
 	const [successMessages, setSuccessMessages] = React.useState([]);
 	const [refresh, setRefresh] = React.useState(false);
 	const { isAuthenticated, isLoading, message } = useSelector(
@@ -67,11 +71,15 @@ const Login: React.FC = () => {
 				...values,
 			};
 
-			if (errorMessages.length > 0) {
-				console.log(errorMessages);
-				// setErrorMessages((em) => []);
-			} else {
+			// if no error messages then submit the form
+			if (errorMessages.length === 0) {
 				dispatch(LoginAction(loginUser));
+			} else {
+				// putting errorMessages to errorMessagesForRendering
+				setErrorMessagesForRendering(() => [...errorMessages]);
+				// then make errorMessages empty so that it will collect
+				// information for new submit
+				setErrorMessages(() => []);
 			}
 		},
 	});
@@ -85,10 +93,10 @@ const Login: React.FC = () => {
 					setMessages={setSuccessMessages}
 				/>
 			) : null}
-			{errorMessages.length ? (
+			{errorMessagesForRendering.length ? (
 				<ErrorMessages
-					messages={errorMessages}
-					setMessages={setErrorMessages}
+					messages={errorMessagesForRendering}
+					setMessages={setErrorMessagesForRendering}
 				/>
 			) : null}
 			<div className="container mt-3 col-sm-8">

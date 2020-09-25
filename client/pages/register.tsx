@@ -15,6 +15,10 @@ import { ErrorMessages } from "../components/FlashMessages";
 
 const Register: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [
+		errorMessagesForRendering,
+		setErrorMessagesForRendering,
+	] = React.useState([]);
 	const dispatch = useDispatch();
 	const router = useRouter();
 
@@ -75,8 +79,15 @@ const Register: React.FC = () => {
 				...values,
 			};
 
+			// if no error messages then submit the form
 			if (errorMessages.length === 0) {
 				registerUser({ variables: newUser });
+			} else {
+				// putting errorMessages to errorMessagesForRendering
+				setErrorMessagesForRendering(() => [...errorMessages]);
+				// then make errorMessages empty so that it will collect
+				// information for new submit
+				setErrorMessages(() => []);
 			}
 		},
 	});
@@ -84,10 +95,10 @@ const Register: React.FC = () => {
 	return (
 		<div>
 			<Navbar />
-			{errorMessages.length ? (
+			{errorMessagesForRendering.length ? (
 				<ErrorMessages
-					messages={errorMessages}
-					setMessages={setErrorMessages}
+					messages={errorMessagesForRendering}
+					setMessages={setErrorMessagesForRendering}
 				/>
 			) : null}
 			<div className="container mt-3 col-sm-8">
