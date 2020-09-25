@@ -22,6 +22,7 @@ const Register: React.FC = () => {
 	const dispatch = useDispatch();
 	const router = useRouter();
 
+	// mutation for registration
 	const [registerUser, { data }] = useMutation(RegisterQuery, {
 		ignoreResults: false,
 		onCompleted: (data) => {

@@ -100,8 +100,12 @@ app.post("/authenticate", (req: Request, res: Response, next: NextFunction) => {
 });
 
 // get current user route
-app.get("/user", (req: Request, res: Response) => {
-	res.send(req.session);
+app.get("/user", (req: Request | any, res: Response) => {
+	if (req.isAuthenticated()) {
+		res.json({ userId: req.user.id, queryKey: req.user.queryKey });
+	} else {
+		res.json({ message: "user unauthorized" });
+	}
 });
 
 // PORT setup

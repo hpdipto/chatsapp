@@ -22,13 +22,16 @@ const client = new ApolloClient({
 
 const Index: React.FC = () => {
 	const [userId, setUseId] = React.useState(null);
+	const [queryKey, setQueryKey] = React.useState(null);
+	const [user, setUser] = React.useState(null);
 
 	React.useState(() => {
 		axios
 			.get("http://localhost:5000/user", { withCredentials: true })
 			.then((res) => {
-				if (res.data.hasOwnProperty("passport")) {
-					setUseId(res.data.passport.user);
+				if (res.data.hasOwnProperty("userId")) {
+					setUseId(res.data.userId);
+					setQueryKey(res.data.queryKey);
 				}
 			})
 			.catch((err) => console.log(err));
@@ -38,7 +41,15 @@ const Index: React.FC = () => {
 		<div>
 			<Navbar />
 
-			<div>{userId ? <h1>Hello {userId}</h1> : <h1> Hello NextJS</h1>}</div>
+			<div className="container">
+				{userId ? (
+					<h1>
+						Hello {userId}, Your Query Key is: {queryKey}
+					</h1>
+				) : (
+					<h1> Hello NextJS</h1>
+				)}
+			</div>
 		</div>
 	);
 };

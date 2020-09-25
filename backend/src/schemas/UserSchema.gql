@@ -3,8 +3,6 @@ type User {
 	lastName: String!
 	email: String!
 	username: String!
-	password: String
-	password2: String
 	gender: String
 	dateOfBirth: String
 	activityStatus: Boolean
@@ -24,18 +22,18 @@ input registerUser {
 	chatRooms: [String]
 }
 
-input inputCredential {
-	emailOrUserName: String!
-	password: String!
+input getUserData {
+	id: ID!
+	key: ID!
 }
 
 # Queries and Mutation
 
 type Query {
 	allUser: [User]
+	getUser(userCredentials: getUserData): User
 }
 
 type Mutation {
 	registerUser(user: registerUser): User
-	loginUser(credential: inputCredential): User
 }
