@@ -1,7 +1,10 @@
 import * as React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
+	const router = useRouter();
+
 	return (
 		<div className="container">
 			<Head>
@@ -14,7 +17,12 @@ const Navbar: React.FC = () => {
 				<title>ChatsApp</title>
 			</Head>
 			<nav className="navbar navbar-dark bg-primary">
-				<h2 style={{ color: "white" }}>ChatsApp</h2>
+				<h2
+					style={{ color: "white", cursor: "pointer" }}
+					onClick={() => router.push("/")}
+				>
+					ChatsApp
+				</h2>
 			</nav>
 		</div>
 	);
