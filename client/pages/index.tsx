@@ -1,29 +1,23 @@
 import * as React from "react";
 import axios from "axios";
 import Head from "next/head";
-import {
-	ApolloProvider,
-	ApolloClient,
-	InMemoryCache,
-	useQuery,
-} from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 import Login from "./login";
 import Register from "./register";
 import Navbar from "../components/Navbar";
 
-const client = new ApolloClient({
-	uri: "http://localhost:5000/graphql",
-	cache: new InMemoryCache(),
-});
-
-// eable axios cookies
-// axios.defaults.withCredentials = true;
+import { GetUserQuery } from "../queries/fetchUser";
 
 const Index: React.FC = () => {
 	const [userId, setUseId] = React.useState(null);
 	const [queryKey, setQueryKey] = React.useState(null);
 	const [user, setUser] = React.useState(null);
+
+	const { loading, error, data } = useQuery(GetUserQuery, {
+		variables: { id: userId, key: queryKey },
+		onCompleted: (data) => setUser(data.getUser),
+	});
 
 	React.useState(() => {
 		axios
@@ -42,12 +36,12 @@ const Index: React.FC = () => {
 			<Navbar />
 
 			<div className="container">
-				{userId ? (
-					<h1>
-						Hello {userId}, Your Query Key is: {queryKey}
-					</h1>
+				{user ? (
+					<h3>
+						Hello <strong>{user.firstName}</strong>, how are you today?
+					</h3>
 				) : (
-					<h1> Hello NextJS</h1>
+					<h3> Hello NextJS</h3>
 				)}
 			</div>
 		</div>
