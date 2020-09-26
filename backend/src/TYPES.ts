@@ -15,3 +15,11 @@ export type Credentials {
 	emailOrUserName: string,
 	password: string
 };
+
+export type RoomType {
+	name: string,
+	roomId: string,
+	users: Array<string>,
+	admins: Array<string>,
+	blockedUser?: Array<string>
+}
