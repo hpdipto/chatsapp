@@ -5,6 +5,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/registerForm.css";
+import "../styles/homeLeftPanel.css";
 
 import store from "../redux/store";
 

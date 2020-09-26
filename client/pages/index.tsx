@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client";
 import Login from "./login";
 import Register from "./register";
 import Navbar from "../components/Navbar";
+import Body from "../components/Body";
 
 import { GetUserQuery } from "../queries/fetchUser";
 
@@ -58,13 +59,8 @@ const Index: React.FC = () => {
 			<Navbar user={user} />
 
 			<div className="container">
-				{user ? (
-					<h3>
-						Hello <strong>{user.firstName}</strong>, how are you today?
-					</h3>
-				) : (
-					<h3> Hello NextJS</h3>
-				)}
+				{/*user ? <Body /> : <h3> Hello NextJS</h3> */}
+				<Body />
 			</div>
 		</div>
 	);

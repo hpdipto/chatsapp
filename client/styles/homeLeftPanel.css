@@ -1,0 +1,11 @@
+.room-name {
+	cursor: pointer;
+}
+
+.room-name:hover {
+	color: #dae4eb !important;
+}
+
+.create-room:hover {
+	color: #095e99;
+}
