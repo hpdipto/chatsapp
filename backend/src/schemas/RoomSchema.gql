@@ -1,0 +1,15 @@
+type Room {
+	name: String!
+	roomId: ID!
+	users: [String]!
+	admins: [String]!
+	blockedUser: [String]
+}
+
+input roomInput {
+	name: String!
+	roomId: ID!
+	users: [String]!
+	admins: [String]!
+	blockedUser: [String]
+}

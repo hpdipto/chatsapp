@@ -1,6 +1,7 @@
 import { ApolloError } from "apollo-server-express";
 
 import { User } from "../models/User";
+import Room from "../models/Room";
 
 const allUser = (parent: any, args: any, context: any) => {
 	return User.find({});
@@ -26,9 +27,15 @@ const getUser = async (parent: any, args: any, context: any) => {
 	}
 };
 
+// Resolvers for chat Room
+const allRooms = () => {
+	return Room.find({});
+};
+
 const Query = {
 	allUser,
 	getUser,
+	allRooms,
 };
 
 export default Query;

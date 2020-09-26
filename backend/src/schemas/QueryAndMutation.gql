@@ -1,0 +1,12 @@
+# Queries and Mutation
+
+type Query {
+	allUser: [User]
+	getUser(userCredentials: getUserData): User
+	allRooms: [Room]
+}
+
+type Mutation {
+	registerUser(user: registerUser): User
+	createRoom(room: roomInput): Room
+}

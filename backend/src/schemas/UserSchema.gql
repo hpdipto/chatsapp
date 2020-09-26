@@ -26,14 +26,3 @@ input getUserData {
 	id: ID!
 	key: ID!
 }
-
-# Queries and Mutation
-
-type Query {
-	allUser: [User]
-	getUser(userCredentials: getUserData): User
-}
-
-type Mutation {
-	registerUser(user: registerUser): User
-}

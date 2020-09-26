@@ -66,8 +66,18 @@ const authenticator = (req: Request, res: Response, next: NextFunction) => ({
 });
 
 // loading schema file, typeDefs and resolvers
-const schemaFile = path.join(__dirname, "./schemas/UserSchema.gql");
-const typeDefs = fs.readFileSync(schemaFile, "utf-8");
+const userScemaFile = path.join(__dirname, "./schemas/UserSchema.gql");
+let typeDefs = fs.readFileSync(userScemaFile, "utf-8");
+
+const roomSchemaFile = path.join(__dirname, "./schemas/RoomSchema.gql");
+typeDefs = typeDefs + "\n" + fs.readFileSync(roomSchemaFile, "utf-8");
+
+const queryAndMutationFile = path.join(
+	__dirname,
+	"./schemas/QueryAndMutation.gql"
+);
+typeDefs = typeDefs + "\n" + fs.readFileSync(queryAndMutationFile, "utf-8");
+
 import resolvers from "./resolvers/resolvers";
 
 // graphQL server setup
