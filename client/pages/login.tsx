@@ -2,12 +2,10 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { useFormik } from "formik";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
 import { SuccessMessages, ErrorMessages } from "../components/FlashMessages";
-
-import { LoginQuery } from "../queries/login";
 
 import store from "../redux/store";
 import {
@@ -86,7 +84,7 @@ const Login: React.FC = () => {
 
 	return (
 		<div>
-			<Navbar />
+			<Navbar user={undefined} />
 			{successMessages.length ? (
 				<SuccessMessages
 					messages={["Registration Success. Please Login to continue."]}

@@ -1,6 +1,10 @@
 import * as React from "react";
+import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+
+import { LogoutAction } from "../redux/actions/authActions";
 
 const GuestUser: React.FC = () => {
 	return (
@@ -32,6 +36,8 @@ const GuestUser: React.FC = () => {
 };
 
 const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
+	const dispatch = useDispatch();
+
 	return (
 		<div className="dropdown">
 			<img
@@ -52,9 +58,14 @@ const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 				<a href="#" className="dropdown-item">
 					Profile
 				</a>
-				<a href="/register" className="dropdown-item">
-					Log Out
-				</a>
+				<button
+					className="dropdown-item"
+					onClick={() => {
+						dispatch(LogoutAction());
+					}}
+				>
+					Logout
+				</button>
 			</div>
 		</div>
 	);

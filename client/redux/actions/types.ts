@@ -6,6 +6,8 @@ export const REGISTER_SUCCESS_SHOWN = "register_success_shown";
 export const LOGIN_USER = "login_user";
 export const LOGIN_SUCCESS = "login_success";
 export const LOGIN_FAIL = "login_fail";
+export const LOGOUT_SUCCESS = "logout_success";
+export const LOGOUT_FAIL = "logout_fail";
 
 export const SHOW_FLASH_MESSAGES = "show_flash_messages";
 

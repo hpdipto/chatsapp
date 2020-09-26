@@ -8,6 +8,8 @@ import {
 	LOGIN_USER,
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
+	LOGOUT_SUCCESS,
+	LOGOUT_FAIL,
 	USER_LOADED,
 	USER_LOADING,
 } from "./types";
@@ -17,7 +19,7 @@ export const LoginAction = (loginData) => (dispatch) => {
 	dispatch({ type: USER_LOADING });
 
 	axios
-		.post("http://localhost:5000/authenticate", loginData, {
+		.post("http://localhost:5000/login", loginData, {
 			withCredentials: true,
 		})
 		.then((res) => {
@@ -39,6 +41,23 @@ export const LoginAction = (loginData) => (dispatch) => {
 				type: LOGIN_FAIL,
 			})
 		);
+};
+
+export const LogoutAction = () => (dispatch) => {
+	dispatch({ type: USER_LOADING });
+
+	axios
+		.get("http://localhost:5000/logout", { withCredentials: true })
+		.then((res) => {
+			return dispatch({
+				type: LOGOUT_SUCCESS,
+			});
+		})
+		.catch((err) => {
+			return dispatch({
+				type: LOGOUT_FAIL,
+			});
+		});
 };
 
 export const RegistrationSuccess = () => (dispatch) => {

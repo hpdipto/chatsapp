@@ -1,4 +1,9 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADING } from "../actions/types";
+import {
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
+	USER_LOADING,
+	LOGOUT_SUCCESS,
+} from "../actions/types";
 
 type actionType = {
 	type: string;
@@ -31,6 +36,12 @@ const AuthReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: true,
+			};
+		case LOGOUT_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: false,
 			};
 		default:
 			return state;

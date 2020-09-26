@@ -80,33 +80,15 @@ const server = new ApolloServer({
 // graphQL server middleware
 server.applyMiddleware({ app, path: "/graphql" });
 
+// Routes
+import routes from "./routes/authentication";
+
 // Home route
 app.get("/", (req: Request, res: Response) => {
 	res.send("Welcome to ChaptsApp");
 });
 
-// login route, can't handle it on graphql
-// reference: https://stackoverflow.com/a/57540210/9481106
-app.post("/authenticate", (req: Request, res: Response, next: NextFunction) => {
-	passport.authenticate("local", (e, user, info) => {
-		if (e) return next(e);
-		if (info) return res.send(info);
-		req.logIn(user, (e) => {
-			if (e) return next(e);
-			// only sending userId and queryKey
-			res.json({ id: user.id, queryKey: user.queryKey });
-		});
-	})(req, res, next);
-});
-
-// get current user route
-app.get("/user", (req: Request | any, res: Response) => {
-	if (req.isAuthenticated()) {
-		res.json({ userId: req.user.id, queryKey: req.user.queryKey });
-	} else {
-		res.json({ message: "user unauthorized" });
-	}
-});
+app.use(routes);
 
 // PORT setup
 const PORT: string | number = process.env.PORT || 5000;

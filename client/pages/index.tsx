@@ -9,27 +9,38 @@ import Navbar from "../components/Navbar";
 
 import { GetUserQuery } from "../queries/fetchUser";
 
+import { connect, useSelector } from "react-redux";
+
 const Index: React.FC = () => {
-	const [userId, setUseId] = React.useState(null);
+	const [userId, setUserId] = React.useState(null);
 	const [queryKey, setQueryKey] = React.useState(null);
 	const [user, setUser] = React.useState(null);
+	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
 
 	const { loading, error, data } = useQuery(GetUserQuery, {
 		variables: { id: userId, key: queryKey },
 		onCompleted: (data) => setUser(data.getUser),
 	});
 
-	React.useState(() => {
+	React.useEffect(() => {
+		if (!isAuthenticated) {
+			setUserId(null);
+			setQueryKey(null);
+			setUser(null);
+		}
+
+		// if logged in user manually refresh page
+		// we need to load user from server
 		axios
 			.get("http://localhost:5000/user", { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
-					setUseId(res.data.userId);
+					setUserId(res.data.userId);
 					setQueryKey(res.data.queryKey);
 				}
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [isAuthenticated, isLoading]);
 
 	return (
 		<div>
