@@ -1,4 +1,5 @@
 type Room {
+	id: ID!
 	name: String!
 	roomId: ID!
 	users: [String]!
