@@ -10,6 +10,7 @@ import {
 	LOGIN_FAIL,
 	LOGOUT_SUCCESS,
 	LOGOUT_FAIL,
+	FORCE_AUTHENTICATION,
 	USER_LOADED,
 	USER_LOADING,
 } from "./types";
@@ -58,6 +59,12 @@ export const LogoutAction = () => (dispatch) => {
 				type: LOGOUT_FAIL,
 			});
 		});
+};
+
+export const ForceAuthentication = () => (dispatch) => {
+	return dispatch({
+		type: FORCE_AUTHENTICATION,
+	});
 };
 
 export const RegistrationSuccess = () => (dispatch) => {

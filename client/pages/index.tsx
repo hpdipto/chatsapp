@@ -9,13 +9,17 @@ import Navbar from "../components/Navbar";
 
 import { GetUserQuery } from "../queries/fetchUser";
 
-import { connect, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { ForceAuthentication } from "../redux/actions/authActions";
 
 const Index: React.FC = () => {
 	const [userId, setUserId] = React.useState(null);
 	const [queryKey, setQueryKey] = React.useState(null);
 	const [user, setUser] = React.useState(null);
 	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+
+	const dispatch = useDispatch();
 
 	const { loading, error, data } = useQuery(GetUserQuery, {
 		variables: { id: userId, key: queryKey },
@@ -37,6 +41,13 @@ const Index: React.FC = () => {
 				if (res.data.hasOwnProperty("userId")) {
 					setUserId(res.data.userId);
 					setQueryKey(res.data.queryKey);
+
+					// user is authenticated on server side but refresh the page
+					// in that time redux state will be swipt
+					// so we'll authnticate forcefully again
+					if (res.data.userId || res.data.queryKey) {
+						dispatch(ForceAuthentication());
+					}
 				}
 			})
 			.catch((err) => console.log(err));

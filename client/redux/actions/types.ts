@@ -9,6 +9,8 @@ export const LOGIN_FAIL = "login_fail";
 export const LOGOUT_SUCCESS = "logout_success";
 export const LOGOUT_FAIL = "logout_fail";
 
+export const FORCE_AUTHENTICATION = "force_authentication";
+
 export const SHOW_FLASH_MESSAGES = "show_flash_messages";
 
 export const LOAD_USER = "load_user";

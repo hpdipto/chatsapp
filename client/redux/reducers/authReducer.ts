@@ -3,6 +3,7 @@ import {
 	LOGIN_FAIL,
 	USER_LOADING,
 	LOGOUT_SUCCESS,
+	FORCE_AUTHENTICATION,
 } from "../actions/types";
 
 type actionType = {
@@ -42,6 +43,12 @@ const AuthReducer = (state = initialState, action) => {
 				...state,
 				isLoading: false,
 				isAuthenticated: false,
+			};
+		case FORCE_AUTHENTICATION:
+			return {
+				...state,
+				isLoading: false,
+				isAuthenticated: true,
 			};
 		default:
 			return state;
