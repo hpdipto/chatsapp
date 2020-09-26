@@ -2,6 +2,64 @@ import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+const GuestUser: React.FC = () => {
+	return (
+		<div className="dropdown">
+			<img
+				src="/guest.png"
+				alt="user"
+				width="40"
+				style={{ cursor: "pointer" }}
+				className="dropdown-toggle"
+				id="dropdownMenuButton"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+			/>
+			<div
+				className="dropdown-menu dropdown-menu-right"
+				aria-labelledby="dropdownMenuButton"
+			>
+				<a href="/login" className="dropdown-item">
+					Login
+				</a>
+				<a href="/register" className="dropdown-item">
+					Register
+				</a>
+			</div>
+		</div>
+	);
+};
+
+const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
+	return (
+		<div className="dropdown">
+			<img
+				src="/user.png"
+				alt="user"
+				width="40"
+				style={{ cursor: "pointer" }}
+				className="dropdown-toggle"
+				id="dropdownMenuButton"
+				data-toggle="dropdown"
+				aria-haspopup="true"
+				aria-expanded="false"
+			/>
+			<div
+				className="dropdown-menu dropdown-menu-right"
+				aria-labelledby="dropdownMenuButton"
+			>
+				<a href="#" className="dropdown-item">
+					Profile
+				</a>
+				<a href="/register" className="dropdown-item">
+					Log Out
+				</a>
+			</div>
+		</div>
+	);
+};
+
 const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 	const router = useRouter();
 
@@ -24,27 +82,7 @@ const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 					ChatsApp
 				</h2>
 
-				<div className="dropdown">
-					<img
-						src="/guest.png"
-						alt="user"
-						width="40"
-						style={{ cursor: "pointer" }}
-						className="dropdown-toggle"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					/>
-					<div
-						className="dropdown-menu dropdown-menu-right"
-						aria-labelledby="dropdownMenuButton"
-					>
-						<a href="/login" className="dropdown-item">
-							Login
-						</a>
-					</div>
-				</div>
+				{user ? <LoggedInUser user={user} /> : <GuestUser />}
 			</nav>
 
 			<script

@@ -33,7 +33,7 @@ const Index: React.FC = () => {
 
 	return (
 		<div>
-			<Navbar />
+			<Navbar user={user} />
 
 			<div className="container">
 				{user ? (
