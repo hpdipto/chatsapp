@@ -5,16 +5,11 @@ import { useFormik } from "formik";
 import Navbar from "../components/Navbar";
 import { ErrorMessage } from "../components/FlashMessages";
 
-type RoomType = {
-	roomName: string;
-	roomId: string;
-};
-
 const CreateRoom: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
 
 	const validate = (values: any) => {
-		const errors: RoomType = { roomName: "", roomId: "" };
+		const errors: any = {};
 
 		if (!values.roomName.length) {
 			errors.roomName = "Please enter a room name";
@@ -35,13 +30,9 @@ const CreateRoom: React.FC = () => {
 		validateOnChange: false,
 		validateOnBlur: false,
 		onSubmit: (values) => {
-			console.log("#####");
 			console.log(values);
 		},
-		validator: () => ({}),
 	});
-
-	console.log(formik);
 
 	return (
 		<div>
@@ -81,7 +72,6 @@ const CreateRoom: React.FC = () => {
 						<input
 							type="submit"
 							className="form-control btn btn-primary col-sm-9 mb-2"
-							onClick={formik.handleSubmit}
 							value="Create Room"
 						/>
 					</div>
