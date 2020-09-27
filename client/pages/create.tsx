@@ -1,12 +1,45 @@
 import * as React from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
+import { useQuery, useMutation } from "@apollo/client";
+
+import CreateRoomQuery from "../queries/createRoom";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import Navbar from "../components/Navbar";
 import { ErrorMessage } from "../components/FlashMessages";
 
 const CreateRoom: React.FC = () => {
-	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [roomIdError, setRoomIdError] = React.useState("");
+	const [userId, setUserId] = React.useState("");
+	const router = useRouter();
+
+	// mutation for create chat room
+	const [createNewRoom, { data }] = useMutation(CreateRoomQuery, {
+		ignoreResults: false,
+
+		onCompleted: (data) => {
+			let errorMessage = data["createRoom"]["message"];
+			if (errorMessage) {
+				setRoomIdError(() => errorMessage);
+			} else {
+				router.push("/");
+			}
+		},
+	});
+
+	React.useEffect(() => {
+		axios
+			.get("http://localhost:5000/user", { withCredentials: true })
+			.then((res) => {
+				if (res.data.hasOwnProperty("userId")) {
+					setUserId(res.data.userId);
+				}
+			})
+			.catch((err) => console.log(err));
+	}, []);
 
 	const validate = (values: any) => {
 		const errors: any = {};
@@ -30,7 +63,16 @@ const CreateRoom: React.FC = () => {
 		validateOnChange: false,
 		validateOnBlur: false,
 		onSubmit: (values) => {
-			console.log(values);
+			let newRoom = {
+				...values,
+				user: userId,
+				admin: userId,
+			};
+
+			// clearing roomIdError before submitting
+			setRoomIdError(() => "");
+
+			createNewRoom({ variables: newRoom });
 		},
 	});
 
@@ -57,6 +99,7 @@ const CreateRoom: React.FC = () => {
 						{formik.errors.roomId ? (
 							<ErrorMessage message={formik.errors.roomId} />
 						) : null}
+						{roomIdError ? <ErrorMessage message={roomIdError} /> : null}
 						<label htmlFor="roomId" className="col-sm-3">
 							Room ID
 						</label>
