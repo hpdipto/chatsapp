@@ -1,6 +1,9 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 
 const Body: React.FC = () => {
+	const router = useRouter();
+
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
@@ -76,7 +79,10 @@ const Body: React.FC = () => {
 							cursor: "pointer",
 						}}
 					>
-						<div className="text-left py-2 px-2 mx-lg border create-room">
+						<div
+							className="text-left py-2 px-2 mx-lg border create-room"
+							onClick={() => router.push("/create")}
+						>
 							Create Room
 						</div>
 					</div>
