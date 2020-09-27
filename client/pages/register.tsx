@@ -11,14 +11,11 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { RegistrationSuccess } from "../redux/actions/authActions";
 
 import Navbar from "../components/Navbar";
-import { ErrorMessages } from "../components/FlashMessages";
+import { ErrorMessage } from "../components/FlashMessages";
 
 const Register: React.FC = () => {
 	const [errorMessages, setErrorMessages] = React.useState([]);
-	const [
-		errorMessagesForRendering,
-		setErrorMessagesForRendering,
-	] = React.useState([]);
+
 	const dispatch = useDispatch();
 	const router = useRouter();
 
@@ -32,33 +29,34 @@ const Register: React.FC = () => {
 	});
 
 	const validate = (values: any) => {
+		const errors: any = {};
+
 		if (!values.firstName) {
-			setErrorMessages((em) => [...em, "Please enter First Name"]);
+			errors.firstName = "Please enter First Name";
 		}
 		if (!values.lastName) {
-			setErrorMessages((em) => [...em, "Please enter Last Name"]);
+			errors.lastName = "Please enter Last Name";
 		}
 		if (!values.username) {
-			setErrorMessages((em) => [...em, "Please enter Username"]);
+			errors.username = "Please enter Username";
 		}
 		if (!values.email) {
-			setErrorMessages((em) => [...em, "Please enter Email"]);
+			errors.email = "Please enter Email";
 		}
 		if (!values.password) {
-			setErrorMessages((em) => [...em, "Please enter Password"]);
+			errors.password = "Please enter Password";
 		}
 		if (!values.password2) {
-			setErrorMessages((em) => [...em, "Please enter Password again"]);
+			errors.password2 = "Please enter Password again";
 		}
 		if (values.password.length < 6 || values.password2.length < 6) {
-			setErrorMessages((em) => [
-				...em,
-				"Password should contains at least 6 characters",
-			]);
+			errors.passwordLength = "Password should contains at least 6 characters";
 		}
 		if (values.password !== values.password2) {
-			setErrorMessages((em) => [...em, "Password should be matched"]);
+			errors.passwordMatch = "Password should be matched";
 		}
+
+		return errors;
 	};
 
 	const formik = useFormik({
@@ -80,31 +78,20 @@ const Register: React.FC = () => {
 				...values,
 			};
 
-			// if no error messages then submit the form
-			if (errorMessages.length === 0) {
-				registerUser({ variables: newUser });
-			} else {
-				// putting errorMessages to errorMessagesForRendering
-				setErrorMessagesForRendering(() => [...errorMessages]);
-				// then make errorMessages empty so that it will collect
-				// information for new submit
-				setErrorMessages(() => []);
-			}
+			console.log(newUser);
 		},
 	});
 
 	return (
 		<div>
-			<Navbar />
-			{errorMessagesForRendering.length ? (
-				<ErrorMessages
-					messages={errorMessagesForRendering}
-					setMessages={setErrorMessagesForRendering}
-				/>
-			) : null}
+			<Navbar user={null} />
+
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
+						{formik.errors.firstName ? (
+							<ErrorMessage message={formik.errors.firstName} />
+						) : null}
 						<label htmlFor="firstName" className="col-sm-3">
 							First Name
 						</label>
@@ -116,6 +103,9 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
+						{formik.errors.lastName ? (
+							<ErrorMessage message={formik.errors.lastName} />
+						) : null}
 						<label htmlFor="lastName" className="col-sm-3">
 							Last Name
 						</label>
@@ -127,6 +117,9 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
+						{formik.errors.email ? (
+							<ErrorMessage message={formik.errors.email} />
+						) : null}
 						<label htmlFor="email" className="col-sm-3">
 							Email
 						</label>
@@ -138,6 +131,9 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
+						{formik.errors.username ? (
+							<ErrorMessage message={formik.errors.username} />
+						) : null}
 						<label htmlFor="username" className="col-sm-3">
 							Username
 						</label>
@@ -149,6 +145,15 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
+						{formik.errors.password ? (
+							<ErrorMessage message={formik.errors.password} />
+						) : null}
+						{formik.errors.passwordLength ? (
+							<ErrorMessage message={formik.errors.passwordLength} />
+						) : null}
+						{formik.errors.passwordMatch ? (
+							<ErrorMessage message={formik.errors.passwordMatch} />
+						) : null}
 						<label htmlFor="password" className="col-sm-3">
 							Password
 						</label>
@@ -160,6 +165,9 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 						/>
 
+						{formik.errors.password2 ? (
+							<ErrorMessage message={formik.errors.password2} />
+						) : null}
 						<label htmlFor="password2" className="col-sm-3">
 							Password Again
 						</label>
