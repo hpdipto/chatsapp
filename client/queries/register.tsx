@@ -26,6 +26,7 @@ export const RegisterQuery = gql`
 			firstName
 			lastName
 			username
+			message
 		}
 	}
 `;

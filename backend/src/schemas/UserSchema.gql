@@ -7,6 +7,7 @@ type User {
 	dateOfBirth: String
 	activityStatus: Boolean
 	chatRooms: [String]
+	message: String
 }
 
 input registerUser {

@@ -14,7 +14,8 @@ import Navbar from "../components/Navbar";
 import { ErrorMessage } from "../components/FlashMessages";
 
 const Register: React.FC = () => {
-	const [errorMessages, setErrorMessages] = React.useState([]);
+	const [emailError, setEmailError] = React.useState("");
+	const [usernameError, setUsernameError] = React.useState("");
 
 	const dispatch = useDispatch();
 	const router = useRouter();
@@ -22,9 +23,22 @@ const Register: React.FC = () => {
 	// mutation for registration
 	const [registerUser, { data }] = useMutation(RegisterQuery, {
 		ignoreResults: false,
+
 		onCompleted: (data) => {
-			dispatch(RegistrationSuccess());
-			router.push("/login");
+			console.log(data);
+			// if something exist in data['registerUser']['message']
+			// there is an error
+			let errorMessage = data["registerUser"]["message"];
+			if (errorMessage) {
+				if (errorMessage === "Email already exist") {
+					setEmailError(() => errorMessage);
+				} else {
+					setUsernameError(() => errorMessage);
+				}
+			} else {
+				dispatch(RegistrationSuccess());
+				router.push("/login");
+			}
 		},
 	});
 
@@ -77,8 +91,11 @@ const Register: React.FC = () => {
 			let newUser = {
 				...values,
 			};
+			// clear serverside errors before submitting
+			setEmailError(() => "");
+			setUsernameError(() => "");
 
-			console.log(newUser);
+			registerUser({ variables: newUser });
 		},
 	});
 
@@ -120,6 +137,7 @@ const Register: React.FC = () => {
 						{formik.errors.email ? (
 							<ErrorMessage message={formik.errors.email} />
 						) : null}
+						{emailError ? <ErrorMessage message={emailError} /> : null}
 						<label htmlFor="email" className="col-sm-3">
 							Email
 						</label>
@@ -134,6 +152,7 @@ const Register: React.FC = () => {
 						{formik.errors.username ? (
 							<ErrorMessage message={formik.errors.username} />
 						) : null}
+						{usernameError ? <ErrorMessage message={usernameError} /> : null}
 						<label htmlFor="username" className="col-sm-3">
 							Username
 						</label>
