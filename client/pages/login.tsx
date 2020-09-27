@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
-import { SuccessMessages, ErrorMessages } from "../components/FlashMessages";
+import { SuccessMessages, ErrorMessage } from "../components/FlashMessages";
 
 import store from "../redux/store";
 import {
@@ -16,13 +16,9 @@ import {
 const Login: React.FC = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const [errorMessages, setErrorMessages] = React.useState([]);
-	const [
-		errorMessagesForRendering,
-		setErrorMessagesForRendering,
-	] = React.useState([]);
+
 	const [successMessages, setSuccessMessages] = React.useState([]);
-	const [refresh, setRefresh] = React.useState(false);
+	const [serverError, setServerError] = React.useState(null);
 	const { isAuthenticated, isLoading, message } = useSelector(
 		(state) => state.auth
 	);
@@ -41,19 +37,22 @@ const Login: React.FC = () => {
 			RegisterSuccessShown();
 		}
 
-		// error messages if something goes wrong in server side
 		if (message) {
-			setErrorMessages((msg) => [message]);
+			setServerError(message);
 		}
 	}, [isAuthenticated, isLoading]);
 
 	const validate = (values: any) => {
+		const errors: any = {};
+
 		if (!values.emailOrUserName) {
-			setErrorMessages((em) => [...em, "Please provide an email or username"]);
+			errors.emailOrUserName = "Please provide an email or username";
 		}
 		if (!values.password) {
-			setErrorMessages((em) => [...em, "Please provide a password"]);
+			errors.password = "Please provide a password";
 		}
+
+		return errors;
 	};
 
 	const formik = useFormik({
@@ -64,21 +63,14 @@ const Login: React.FC = () => {
 		validate,
 		validateOnChange: false,
 		validateOnBlur: false,
-		onSubmit: async (values) => {
+		onSubmit: (values) => {
 			let loginUser = {
 				...values,
 			};
+			// clearing server error so that it can hold new server side error
+			setServerError(() => "");
 
-			// if no error messages then submit the form
-			if (errorMessages.length === 0) {
-				dispatch(LoginAction(loginUser));
-			} else {
-				// putting errorMessages to errorMessagesForRendering
-				setErrorMessagesForRendering(() => [...errorMessages]);
-				// then make errorMessages empty so that it will collect
-				// information for new submit
-				setErrorMessages(() => []);
-			}
+			dispatch(LoginAction(loginUser));
 		},
 	});
 
@@ -91,15 +83,14 @@ const Login: React.FC = () => {
 					setMessages={setSuccessMessages}
 				/>
 			) : null}
-			{errorMessagesForRendering.length ? (
-				<ErrorMessages
-					messages={errorMessagesForRendering}
-					setMessages={setErrorMessagesForRendering}
-				/>
-			) : null}
+
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
+						{serverError ? <ErrorMessage message={serverError} /> : null}
+						{formik.errors.emailOrUserName ? (
+							<ErrorMessage message={formik.errors.emailOrUserName} />
+						) : null}
 						<label htmlFor="emailOrUsername" className="col-sm-3">
 							Email or Username
 						</label>
@@ -110,6 +101,10 @@ const Login: React.FC = () => {
 							onChange={formik.handleChange}
 							className="form-control col-sm-9 mb-3"
 						/>
+
+						{formik.errors.password ? (
+							<ErrorMessage message={formik.errors.password} />
+						) : null}
 						<label htmlFor="password" className="col-sm-3">
 							Password
 						</label>
@@ -120,6 +115,7 @@ const Login: React.FC = () => {
 							onChange={formik.handleChange}
 							className="form-control col-sm-9 mb-3"
 						/>
+
 						<label htmlFor="empty" className="col-sm-3"></label>
 						<input
 							type="submit"
