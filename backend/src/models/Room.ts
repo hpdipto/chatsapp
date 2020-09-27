@@ -4,7 +4,7 @@ import { RoomType } from "../TYPES";
 const Schema = mongoose.Schema;
 
 const RoomSchema: mongoose.Schema<RoomType> = new Schema({
-	name: {
+	roomName: {
 		type: String,
 		required: true,
 	},

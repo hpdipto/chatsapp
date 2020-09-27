@@ -17,7 +17,7 @@ export type Credentials {
 };
 
 export type RoomType {
-	name: string,
+	roomName: string,
 	roomId: string,
 	users: Array<string>,
 	admins: Array<string>,

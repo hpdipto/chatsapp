@@ -1,7 +1,7 @@
 type Room {
 	id: ID!
-	name: String!
-	roomId: ID!
+	roomName: String!
+	roomId: String!
 	users: [String]!
 	admins: [String]!
 	blockedUser: [String]
@@ -9,8 +9,8 @@ type Room {
 }
 
 input roomInput {
-	name: String!
-	roomId: ID!
+	roomName: String!
+	roomId: String!
 	users: [String]!
 	admins: [String]!
 	blockedUser: [String]
