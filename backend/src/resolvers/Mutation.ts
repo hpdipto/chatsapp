@@ -39,12 +39,23 @@ const registerUser = async (parent: any, args: { user: UserType }) => {
 };
 
 // resolvers for chat Room
-const createRoom = (parent: any, args: { room: RoomType }) => {
+const createRoom = async (parent: any, args: { room: RoomType }) => {
 	let newRoom = new Room({
 		...args.room,
 	});
 
-	return newRoom.save();
+	try {
+		let savedRoom = await newRoom.save();
+		return savedRoom;
+	} catch (e) {
+		if (e.keyValue.hasOwnProperty("roomId")) {
+			return {
+				...args.room,
+				id: { ...args.room }["admins"][0],
+				message: "Room ID already taken",
+			};
+		}
+	}
 };
 
 // Mutation
