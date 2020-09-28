@@ -6,10 +6,12 @@ import ChatRooms from "./ChatRooms";
 const Body: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 	const router = useRouter();
 
+	console.log(user);
+
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms />
+				<ChatRooms rooms={user.chatRooms} />
 
 				<div className="col-9 border bg-light">
 					<div

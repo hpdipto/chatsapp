@@ -8,6 +8,7 @@ export const GetUserQuery = gql`
 			username
 			gender
 			dateOfBirth
+			chatRooms
 		}
 	}
 `;

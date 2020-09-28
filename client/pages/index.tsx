@@ -1,6 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 
 import Login from "./login";
@@ -22,11 +23,7 @@ const Index: React.FC = () => {
 	const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
 
 	const dispatch = useDispatch();
-
-	const { loading, error, data } = useQuery(GetUserQuery, {
-		variables: { id: userId, key: queryKey },
-		onCompleted: (data) => setUser(data.getUser),
-	});
+	const router = useRouter();
 
 	React.useEffect(() => {
 		if (!isAuthenticated) {
@@ -41,8 +38,8 @@ const Index: React.FC = () => {
 			.get("http://localhost:5000/user", { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
-					setUserId(res.data.userId);
-					setQueryKey(res.data.queryKey);
+					setUserId(() => res.data.userId);
+					setQueryKey(() => res.data.queryKey);
 
 					// user is authenticated on server side but refresh the page
 					// in that time redux state will be swipt
@@ -54,6 +51,12 @@ const Index: React.FC = () => {
 			})
 			.catch((err) => console.log(err));
 	}, [isAuthenticated, isLoading]);
+
+	const { loading, error, data, refetch } = useQuery(GetUserQuery, {
+		variables: { id: userId, key: queryKey },
+		fetchPolicy: "network-only",
+		onCompleted: (data) => setUser(() => data.getUser),
+	});
 
 	return (
 		<div>

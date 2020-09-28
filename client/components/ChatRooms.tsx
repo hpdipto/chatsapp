@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 
-const ChatRooms: React.FC = () => {
+const ChatRooms: React.FC<{ rooms }> = ({ rooms }: { rooms: any }) => {
 	const router = useRouter();
 
 	return (
@@ -26,27 +26,17 @@ const ChatRooms: React.FC = () => {
 					height: "calc(100vh - 30vh)",
 				}}
 			>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 1
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 2
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 3
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 4
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 5
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 5
-				</div>
-				<div className="bg-secondary text-left px-2 py-2 border room-name">
-					Room 5
-				</div>
+				{rooms &&
+					rooms.map((room, index) => {
+						return (
+							<div
+								className="bg-secondary text-left px-2 py-2 border room-name"
+								key={index}
+							>
+								{room};
+							</div>
+						);
+					})}
 			</div>
 
 			<div
@@ -56,12 +46,14 @@ const ChatRooms: React.FC = () => {
 					cursor: "pointer",
 				}}
 			>
-				<div
-					className="text-left py-2 px-2 mx-lg border create-room"
-					onClick={() => router.push("/create")}
-				>
-					Create Room
-				</div>
+				{rooms ? (
+					<div
+						className="text-left py-2 px-2 mx-lg border create-room"
+						onClick={() => router.push("/create")}
+					>
+						Create Room
+					</div>
+				) : null}
 			</div>
 		</div>
 	);

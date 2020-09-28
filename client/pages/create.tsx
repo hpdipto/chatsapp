@@ -5,19 +5,24 @@ import { useFormik } from "formik";
 import { useQuery, useMutation } from "@apollo/client";
 
 import CreateRoomQuery from "../queries/createRoom";
+import { GetUserQuery } from "../queries/fetchUser";
 
 import { useSelector, useDispatch } from "react-redux";
+import { ForceAuthentication } from "../redux/actions/authActions";
 
 import Navbar from "../components/Navbar";
 import { ErrorMessage } from "../components/FlashMessages";
 
 const CreateRoom: React.FC = () => {
 	const [roomIdError, setRoomIdError] = React.useState("");
-	const [userId, setUserId] = React.useState("");
+	const [userId, setUserId] = React.useState(null);
+	const [queryKey, setQueyrKey] = React.useState(null);
+	const [user, setUser] = React.useState(null);
 	const router = useRouter();
+	const dispatch = useDispatch();
 
 	// mutation for create chat room
-	const [createNewRoom, { data }] = useMutation(CreateRoomQuery, {
+	const [createNewRoom] = useMutation(CreateRoomQuery, {
 		ignoreResults: false,
 
 		onCompleted: (data) => {
@@ -30,12 +35,21 @@ const CreateRoom: React.FC = () => {
 		},
 	});
 
+	// query for fetching user
+	const { loading, error, data } = useQuery(GetUserQuery, {
+		variables: { id: userId, key: queryKey },
+		onCompleted: (data) => setUser(data.getUser),
+	});
+
 	React.useEffect(() => {
 		axios
 			.get("http://localhost:5000/user", { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
 					setUserId(res.data.userId);
+					setQueyrKey(res.data.queryKey);
+				} else {
+					router.push("/");
 				}
 			})
 			.catch((err) => console.log(err));
@@ -70,6 +84,7 @@ const CreateRoom: React.FC = () => {
 			};
 
 			// clearing roomIdError before submitting
+			// so that it can dol fesh errors
 			setRoomIdError(() => "");
 
 			createNewRoom({ variables: newRoom });
@@ -78,7 +93,8 @@ const CreateRoom: React.FC = () => {
 
 	return (
 		<div>
-			<Navbar user={undefined} />
+			<Navbar user={user} />
+
 			<div className="container mt-3 col-sm-8">
 				<form onSubmit={formik.handleSubmit}>
 					<div className="form-group row">
