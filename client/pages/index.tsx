@@ -7,6 +7,7 @@ import Login from "./login";
 import Register from "./register";
 import Navbar from "../components/Navbar";
 import Body from "../components/Body";
+import EmptyBody from "../components/EmptyBody";
 
 import { GetUserQuery } from "../queries/fetchUser";
 
@@ -59,8 +60,7 @@ const Index: React.FC = () => {
 			<Navbar user={user} />
 
 			<div className="container">
-				{/*user ? <Body /> : <h3> Hello NextJS</h3> */}
-				<Body />
+				{user ? <Body user={user} /> : <EmptyBody />}
 			</div>
 		</div>
 	);
