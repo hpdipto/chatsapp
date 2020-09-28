@@ -2,6 +2,8 @@ import { ApolloError, UserInputError } from "apollo-server-express";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import mongoose from "mongoose";
+
 import { User } from "../models/User";
 import Room from "../models/Room";
 import { UserType, Credentials, RoomType } from "../TYPES";
@@ -46,6 +48,15 @@ const createRoom = async (parent: any, args: { room: RoomType }) => {
 
 	try {
 		let savedRoom = await newRoom.save();
+
+		// update user field too
+		let userId = mongoose.Types.ObjectId({ ...args.room }["admins"][0]);
+		let updateUser = await User.findByIdAndUpdate(
+			userId,
+			{ $push: { chatRooms: savedRoom.id } },
+			{ new: true }
+		);
+
 		return savedRoom;
 	} catch (e) {
 		if (e.keyValue.hasOwnProperty("roomId")) {
