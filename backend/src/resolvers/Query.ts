@@ -53,7 +53,6 @@ const getRoomData = async (parent: any, args: any, context: any) => {
 		blockedUser: [],
 		message: "Unauthorized user",
 	};
-	console.log(emptyRoom);
 	return emptyRoom;
 };
 
