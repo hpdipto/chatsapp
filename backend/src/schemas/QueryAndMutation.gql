@@ -4,6 +4,7 @@ type Query {
 	allUser: [User]
 	getUser(userCredentials: getUserData): User
 	allRooms: [Room]
+	getRoomData(roomCredentials: getRoomData): Room
 }
 
 type Mutation {

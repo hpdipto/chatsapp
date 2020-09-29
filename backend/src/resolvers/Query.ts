@@ -32,10 +32,36 @@ const allRooms = () => {
 	return Room.find({});
 };
 
+// Resolvers for retrieving data of a particular room
+const getRoomData = async (parent: any, args: any, context: any) => {
+	const { roomId, userId } = args.roomCredentials;
+
+	let room = await Room.findById(roomId);
+	//@ts-ignore
+	let roomUsers = room.users;
+	for (var i = 0; i < roomUsers.length; i++) {
+		if (roomUsers[i] === userId.toString()) {
+			return room;
+		}
+	}
+
+	let emptyRoom = {
+		//@ts-ignore
+		...room._doc,
+		users: [],
+		admins: [],
+		blockedUser: [],
+		message: "Unauthorized user",
+	};
+	console.log(emptyRoom);
+	return emptyRoom;
+};
+
 const Query = {
 	allUser,
 	getUser,
 	allRooms,
+	getRoomData,
 };
 
 export default Query;

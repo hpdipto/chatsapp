@@ -15,3 +15,8 @@ input roomInput {
 	admins: [String]!
 	blockedUser: [String]
 }
+
+input getRoomData {
+	roomId: String!
+	userId: String!
+}
