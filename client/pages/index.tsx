@@ -59,12 +59,6 @@ const Index: React.FC = () => {
 		onCompleted: (data) => setUser(() => data.getUser),
 	});
 
-	// const { loading, error, data } = useQuery(GetRoomDataQuery, {
-	// 	variables: { roomId: roomId , id: userId },
-	// 	fetchPolicy: "network-only",
-	// 	onCompleted: (data) => setRoom(data),
-	// });
-
 	return (
 		<div>
 			<Navbar user={user} />

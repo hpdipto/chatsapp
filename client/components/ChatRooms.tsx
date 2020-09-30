@@ -1,9 +1,31 @@
 import * as React from "react";
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 
-const ChatRooms: React.FC<{ rooms }> = ({ rooms }: { rooms: any }) => {
+import GetRoomDataQuery from "../queries/getRoomData";
+
+const ChatRooms: React.FC<{ rooms; userId }> = ({
+	rooms,
+	userId,
+}: {
+	rooms: any;
+	userId;
+}) => {
 	const [roomsData, setRoomsData] = React.useState(null);
 	const router = useRouter();
+
+	if (rooms && !roomsData) {
+		for (var i = 0; i < rooms.length; i++) {
+			const { loading, error, data } = useQuery(GetRoomDataQuery, {
+				variables: { roomId: rooms[i], id: userId },
+				fetchPolicy: "network-only",
+				onCompleted: (data) =>
+					setRoomsData((roomsData) => [...roomsData, data]),
+			});
+		}
+
+		console.log(roomsData, rooms);
+	}
 
 	return (
 		<div className="col-3 border bg-light">
@@ -27,14 +49,14 @@ const ChatRooms: React.FC<{ rooms }> = ({ rooms }: { rooms: any }) => {
 					height: "calc(100vh - 30vh)",
 				}}
 			>
-				{rooms &&
-					rooms.map((room, index) => {
+				{roomsData &&
+					roomsData.map((room, index) => {
 						return (
 							<div
 								className="bg-secondary text-left px-2 py-2 border room-name"
 								key={index}
 							>
-								{room};
+								{room.roomName};
 							</div>
 						);
 					})}

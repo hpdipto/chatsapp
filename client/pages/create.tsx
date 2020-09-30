@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useQuery, useMutation } from "@apollo/client";
 
 import CreateRoomQuery from "../queries/createRoom";
-import { GetUserQuery } from "../queries/fetchUser";
+import GetUserQuery from "../queries/fetchUser";
 
 import { useSelector, useDispatch } from "react-redux";
 import { ForceAuthentication } from "../redux/actions/authActions";

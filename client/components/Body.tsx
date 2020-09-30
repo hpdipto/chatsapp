@@ -11,7 +11,7 @@ const Body: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms rooms={user.chatRooms} />
+				<ChatRooms rooms={user.chatRooms} userId={user.id} />
 
 				<div className="col-9 border bg-light">
 					<div
