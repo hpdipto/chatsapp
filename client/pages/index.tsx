@@ -10,7 +10,8 @@ import Navbar from "../components/Navbar";
 import Body from "../components/Body";
 import EmptyBody from "../components/EmptyBody";
 
-import { GetUserQuery } from "../queries/fetchUser";
+import GetUserQuery from "../queries/fetchUser";
+import GetRoomDataQuery from "../queries/getRoomData";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -52,11 +53,17 @@ const Index: React.FC = () => {
 			.catch((err) => console.log(err));
 	}, [isAuthenticated, isLoading]);
 
-	const { loading, error, data, refetch } = useQuery(GetUserQuery, {
+	const { loading, error, data } = useQuery(GetUserQuery, {
 		variables: { id: userId, key: queryKey },
 		fetchPolicy: "network-only",
 		onCompleted: (data) => setUser(() => data.getUser),
 	});
+
+	// const { loading, error, data } = useQuery(GetRoomDataQuery, {
+	// 	variables: { roomId: roomId , id: userId },
+	// 	fetchPolicy: "network-only",
+	// 	onCompleted: (data) => setRoom(data),
+	// });
 
 	return (
 		<div>

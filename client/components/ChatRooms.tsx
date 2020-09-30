@@ -2,6 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 
 const ChatRooms: React.FC<{ rooms }> = ({ rooms }: { rooms: any }) => {
+	const [roomsData, setRoomsData] = React.useState(null);
 	const router = useRouter();
 
 	return (
