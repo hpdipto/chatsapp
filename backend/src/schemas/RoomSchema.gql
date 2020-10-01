@@ -17,6 +17,6 @@ input roomInput {
 }
 
 input getRoomData {
-	roomId: String!
+	roomIds: [String]!
 	userId: String!
 }

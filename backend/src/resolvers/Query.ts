@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-express";
+import mongoose from "mongoose";
 
 import { User } from "../models/User";
 import Room from "../models/Room";
@@ -33,16 +34,25 @@ const allRooms = () => {
 };
 
 // Resolvers for retrieving data of a particular room
-const getRoomData = async (parent: any, args: any, context: any) => {
-	const { roomId, userId } = args.roomCredentials;
+const getRoomsData = async (parent: any, args: any, context: any) => {
+	const { roomIds, userId } = args.roomCredentials;
 
-	let room = await Room.findById(roomId);
-	//@ts-ignore
-	let roomUsers = room.users;
-	for (var i = 0; i < roomUsers.length; i++) {
-		if (roomUsers[i] === userId.toString()) {
-			return room;
+	let roomData: any = [];
+
+	for (var r = 0; r < roomIds.length; r++) {
+		let room = await Room.findById(mongoose.Types.ObjectId(roomIds[r]));
+		//@ts-ignore
+		let roomUsers = room.users;
+		for (var i = 0; i < roomUsers.length; i++) {
+			if (roomUsers[i] === userId.toString()) {
+				roomData.push(room);
+				break;
+			}
 		}
+	}
+
+	if (roomData.length) {
+		return roomData;
 	}
 
 	let emptyRoom = {
@@ -60,7 +70,7 @@ const Query = {
 	allUser,
 	getUser,
 	allRooms,
-	getRoomData,
+	getRoomsData,
 };
 
 export default Query;
