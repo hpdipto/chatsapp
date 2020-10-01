@@ -3,15 +3,19 @@ import { useRouter } from "next/router";
 
 import ChatRooms from "./ChatRooms";
 
-const Body: React.FC<{ user: any }> = ({ user }: { user: any }) => {
+const Body: React.FC<{ user: any; userID: any }> = ({
+	user,
+	userID,
+}: {
+	user: any;
+	userID: any;
+}) => {
 	const router = useRouter();
-
-	console.log(user);
 
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms rooms={user.chatRooms} userId={user.id} />
+				<ChatRooms rooms={user.chatRooms} userID={userID} />
 
 				<div className="col-9 border bg-light">
 					<div

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-const GetRoomDataQuery = gql`
-	query GetRoomData($roomID: String, $userId: String) {
-		getRoomData(roomCredentials: { roomId: $roomId, userId: $userId }) {
+const GetRoomsDataQuery = gql`
+	query GetRoomsData($roomIDs: [String]!, $userID: String!) {
+		getRoomsData(roomCredentials: { roomIds: $roomIDs, userId: $userID }) {
 			roomName
 			roomId
 			users
@@ -12,4 +12,4 @@ const GetRoomDataQuery = gql`
 	}
 `;
 
-export default GetRoomDataQuery;
+export default GetRoomsDataQuery;
