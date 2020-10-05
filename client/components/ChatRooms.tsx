@@ -1,24 +1,14 @@
 import * as React from "react";
-import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import GetRoomsDataQuery from "../queries/getRoomData";
-
-const ChatRooms: React.FC<{ rooms; userID }> = ({
-	rooms,
+const ChatRooms: React.FC<{ roomsInfo; userID }> = ({
+	roomsInfo,
 	userID,
 }: {
-	rooms: any;
+	roomsInfo: any;
 	userID;
 }) => {
-	const [roomsData, setRoomsData] = React.useState(null);
 	const router = useRouter();
-
-	const { loading, error, data } = useQuery(GetRoomsDataQuery, {
-		variables: { roomIDs: rooms, userID: userID },
-		fetchPolicy: "network-only",
-		onCompleted: (data) => setRoomsData(() => [...data.getRoomsData]),
-	});
 
 	return (
 		<div className="col-3 border bg-light">
@@ -42,8 +32,8 @@ const ChatRooms: React.FC<{ rooms; userID }> = ({
 					height: "calc(100vh - 30vh)",
 				}}
 			>
-				{roomsData &&
-					roomsData.map((room, index) => {
+				{roomsInfo &&
+					roomsInfo.map((room, index) => {
 						return (
 							<div
 								className="bg-secondary text-left px-2 py-2 border room-name"
@@ -62,7 +52,7 @@ const ChatRooms: React.FC<{ rooms; userID }> = ({
 					cursor: "pointer",
 				}}
 			>
-				{rooms ? (
+				{roomsInfo ? (
 					<div
 						className="text-left py-2 px-2 mx-lg border create-room"
 						onClick={() => router.push("/create")}
