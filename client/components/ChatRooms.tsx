@@ -1,12 +1,12 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 
-const ChatRooms: React.FC<{ roomsInfo; userID }> = ({
+const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 	roomsInfo,
-	userID,
+	setSelectedRoomIndex,
 }: {
 	roomsInfo: any;
-	userID;
+	setSelectedRoomIndex;
 }) => {
 	const router = useRouter();
 
@@ -38,6 +38,7 @@ const ChatRooms: React.FC<{ roomsInfo; userID }> = ({
 							<div
 								className="bg-secondary text-left px-2 py-2 border room-name"
 								key={index}
+								onClick={() => setSelectedRoomIndex(room.index)}
 							>
 								{room.roomName}
 							</div>

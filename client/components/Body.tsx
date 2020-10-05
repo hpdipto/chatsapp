@@ -16,6 +16,8 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 }) => {
 	const [roomsData, setRoomsData] = React.useState(null);
 	const [roomsInfo, setRoomsInfo] = React.useState(null);
+	const [selectedRoomIndex, setSelectedRoomIndex] = React.useState(null);
+	const [selectedRoomData, setSelectedRoomData] = React.useState(null);
 	const router = useRouter();
 
 	const { loading, error, data } = useQuery(GetRoomsDataQuery, {
@@ -25,21 +27,28 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 	});
 
 	React.useEffect(() => {
-		if (roomsData) {
+		if (roomsData && !roomsInfo) {
 			let rInfo = [];
 			roomsData.map((rd, i) =>
 				rInfo.push({ roomName: rd.roomName, roomId: rd.roomId, index: i })
 			);
 			setRoomsInfo(() => [...rInfo]);
 		}
-	}, [roomsData]);
+
+		if (selectedRoomIndex !== null) {
+			setSelectedRoomData(roomsData[selectedRoomIndex]);
+		}
+	}, [roomsData, selectedRoomIndex]);
 
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms roomsInfo={roomsInfo} userID={userID} />
+				<ChatRooms
+					roomsInfo={roomsInfo}
+					setSelectedRoomIndex={setSelectedRoomIndex}
+				/>
 
-				<ChatRoomBody />
+				<ChatRoomBody selectedRoomData={selectedRoomData} />
 			</div>
 		</div>
 	);
