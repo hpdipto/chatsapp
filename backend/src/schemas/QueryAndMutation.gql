@@ -5,6 +5,7 @@ type Query {
 	getUser(userCredentials: getUserData): User
 	allRooms: [Room]
 	getRoomsData(roomCredentials: getRoomData): [Room]
+	getNotJoinedRooms(roomCredentials: getRoomData): [Room]
 }
 
 type Mutation {

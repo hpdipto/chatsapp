@@ -4,10 +4,12 @@ import mongoose from "mongoose";
 import { User } from "../models/User";
 import Room from "../models/Room";
 
+// Resolver for getting all user
 const allUser = (parent: any, args: any, context: any) => {
 	return User.find({});
 };
 
+// Resolver for getting a particular user
 const getUser = async (parent: any, args: any, context: any) => {
 	const { id, key } = args.userCredentials;
 
@@ -28,12 +30,12 @@ const getUser = async (parent: any, args: any, context: any) => {
 	}
 };
 
-// Resolvers for chat Room
+// Resolver for chat Room
 const allRooms = () => {
 	return Room.find({});
 };
 
-// Resolvers for retrieving data of a particular room
+// Resolver for retrieving data of a particular room
 const getRoomsData = async (parent: any, args: any, context: any) => {
 	const { roomIds, userId } = args.roomCredentials;
 
@@ -66,11 +68,26 @@ const getRoomsData = async (parent: any, args: any, context: any) => {
 	return emptyRoom;
 };
 
+// Resolver for getting not joined rooms for a particular user
+const getNotJoinedRooms = async (parent: any, args: any, context: any) => {
+	const { roomIds, userId } = args.roomCredentials;
+
+	var roomIDs: any[] = [];
+	for (var i = 0; i < roomIds.length; i++) {
+		roomIDs.push(mongoose.Types.ObjectId(roomIds[i]));
+	}
+	// console.log(roomIDs);
+
+	var notJoinedRooms = await Room.find({ _id: { $nin: roomIDs } });
+	return notJoinedRooms;
+};
+
 const Query = {
 	allUser,
 	getUser,
 	allRooms,
 	getRoomsData,
+	getNotJoinedRooms,
 };
 
 export default Query;
