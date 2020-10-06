@@ -7,6 +7,7 @@ import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
 
 import ChatRooms from "./ChatRooms";
 import ChatRoomBody from "./ChatRoomBody";
+import ChatRoomBodyJoin from "./ChatRoomBodyJoin";
 
 const Body: React.FC<{ user: any; userID: any }> = ({
 	user,
@@ -21,6 +22,12 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 	const [selectedRoomData, setSelectedRoomData] = React.useState(null);
 
 	const [notJoinedRooms, setNotJoinedRooms] = React.useState(null);
+	const [
+		selectedNotJoinedRoomIndex,
+		setSelectedNotJoinedRoomIndex,
+	] = React.useState(null);
+	const [notJoinedRoomData, setNotJoinedRoomData] = React.useState(null);
+
 	const router = useRouter();
 
 	const { loading, error, data } = useQuery(GetRoomsDataQuery, {
@@ -52,8 +59,14 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 
 		if (selectedRoomIndex !== null) {
 			setSelectedRoomData(roomsData[selectedRoomIndex]);
+			setSelectedNotJoinedRoomIndex(null);
+			setNotJoinedRoomData(null);
 		}
-	}, [roomsData, selectedRoomIndex]);
+
+		if (selectedNotJoinedRoomIndex !== null) {
+			setNotJoinedRoomData(notJoinedRooms[selectedNotJoinedRoomIndex]);
+		}
+	}, [roomsData, selectedRoomIndex, selectedNotJoinedRoomIndex]);
 
 	return (
 		<div className="container px-lg-5">
@@ -62,9 +75,15 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 					roomsInfo={roomsInfo}
 					setSelectedRoomIndex={setSelectedRoomIndex}
 					notJoinedRooms={notJoinedRooms}
+					setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}
 				/>
 
-				<ChatRoomBody selectedRoomData={selectedRoomData} />
+				{selectedRoomData && (
+					<ChatRoomBody selectedRoomData={selectedRoomData} />
+				)}
+				{notJoinedRoomData && (
+					<ChatRoomBodyJoin notJoinedRoomData={notJoinedRoomData} />
+				)}
 			</div>
 		</div>
 	);

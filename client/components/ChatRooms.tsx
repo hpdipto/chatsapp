@@ -6,14 +6,17 @@ const ChatRooms: React.FC<{
 	roomsInfo;
 	setSelectedRoomIndex;
 	notJoinedRooms;
+	setSelectedNotJoinedRoomIndex;
 }> = ({
 	roomsInfo,
 	setSelectedRoomIndex,
 	notJoinedRooms,
+	setSelectedNotJoinedRoomIndex,
 }: {
 	roomsInfo: any;
-	setSelectedRoomIndex;
-	notJoinedRooms;
+	setSelectedRoomIndex: any;
+	notJoinedRooms: any;
+	setSelectedNotJoinedRoomIndex: any;
 }) => {
 	const router = useRouter();
 	const { isAuthenticated } = useSelector((state) => state.auth);
@@ -49,6 +52,7 @@ const ChatRooms: React.FC<{
 													style={{
 														cursor: "pointer",
 													}}
+													onClick={() => setSelectedNotJoinedRoomIndex(index)}
 												>
 													{njr.roomName}
 												</span>
