@@ -6,7 +6,7 @@ const EmptyBody: React.FC = () => {
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms rooms={undefined} />
+				<ChatRooms roomsInfo={undefined} setSelectedRoomIndex={undefined} />
 
 				<div className="col-9 border bg-light">
 					<div
