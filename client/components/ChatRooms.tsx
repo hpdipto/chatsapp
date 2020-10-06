@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 	roomsInfo,
@@ -9,6 +10,7 @@ const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 	setSelectedRoomIndex;
 }) => {
 	const router = useRouter();
+	const { isAuthenticated } = useSelector((state) => state.auth);
 
 	return (
 		<div className="col-3 border bg-light">
@@ -53,7 +55,7 @@ const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 					cursor: "pointer",
 				}}
 			>
-				{roomsInfo ? (
+				{isAuthenticated ? (
 					<div
 						className="text-left py-2 px-2 mx-lg border create-room"
 						onClick={() => router.push("/create")}
