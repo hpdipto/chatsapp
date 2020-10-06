@@ -21,12 +21,16 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 	const [selectedRoomIndex, setSelectedRoomIndex] = React.useState(null);
 	const [selectedRoomData, setSelectedRoomData] = React.useState(null);
 
-	const [notJoinedRooms, setNotJoinedRooms] = React.useState(null);
+	const [notJoinedRoomsData, setNotJoinedRoomsData] = React.useState(null);
+	const [notJoinedRoomsInfo, setNotJoinedRoomsInfo] = React.useState(null);
 	const [
 		selectedNotJoinedRoomIndex,
 		setSelectedNotJoinedRoomIndex,
 	] = React.useState(null);
-	const [notJoinedRoomData, setNotJoinedRoomData] = React.useState(null);
+	const [
+		selectedNotJoinedRoomData,
+		setSelectedNotJoinedRoomData,
+	] = React.useState(null);
 
 	const router = useRouter();
 
@@ -42,11 +46,9 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 			variables: { roomIDs: user.chatRooms, userID: userID },
 			fetchPolicy: "network-only",
 			onCompleted: (data_) =>
-				setNotJoinedRooms(() => [...data_.getNotJoinedRooms]),
+				setNotJoinedRoomsData(() => [...data_.getNotJoinedRooms]),
 		}
 	);
-
-	// console.log("notJoinedRooms: ", notJoinedRooms);
 
 	React.useEffect(() => {
 		if (roomsData && !roomsInfo) {
@@ -57,16 +59,38 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 			setRoomsInfo(() => [...rInfo]);
 		}
 
-		if (selectedRoomIndex !== null) {
-			setSelectedRoomData(roomsData[selectedRoomIndex]);
-			setSelectedNotJoinedRoomIndex(null);
-			setNotJoinedRoomData(null);
+		if (notJoinedRoomsData && !notJoinedRoomsInfo) {
+			let njrInfo = [];
+			notJoinedRoomsData.map((njrd, i) =>
+				njrInfo.push({ roomName: njrd.roomName, roomId: njrd.roomId, index: i })
+			);
+			setNotJoinedRoomsInfo(() => [...njrInfo]);
 		}
 
-		if (selectedNotJoinedRoomIndex !== null) {
-			setNotJoinedRoomData(notJoinedRooms[selectedNotJoinedRoomIndex]);
-		}
-	}, [roomsData, selectedRoomIndex, selectedNotJoinedRoomIndex]);
+		// if (selectedRoomIndex !== null) {
+		// 	console.log("#");
+		// 	setSelectedRoomData(() => roomsData[selectedRoomIndex]);
+		// 	setSelectedNotJoinedRoomIndex(() => null);
+		// 	setSelectedNotJoinedRoomData(() => null);
+		// }
+
+		// if (selectedNotJoinedRoomIndex !== null) {
+		// 	console.log("*");
+		// 	setSelectedNotJoinedRoomData(
+		// 		() => notJoinedRoomsData[selectedNotJoinedRoomIndex]
+		// 	);
+		// 	setSelectedRoomIndex(() => null);
+		// 	setSelectedRoomData(() => null);
+		// }
+	}, [
+		roomsData,
+		notJoinedRoomsData,
+		selectedRoomIndex,
+		selectedNotJoinedRoomIndex,
+	]);
+
+	// console.log(notJoinedRoomsInfo);
+	console.log(selectedNotJoinedRoomIndex);
 
 	return (
 		<div className="container px-lg-5">
@@ -74,16 +98,14 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 				<ChatRooms
 					roomsInfo={roomsInfo}
 					setSelectedRoomIndex={setSelectedRoomIndex}
-					notJoinedRooms={notJoinedRooms}
+					notJoinedRoomsInfo={notJoinedRoomsInfo}
 					setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}
 				/>
 
-				{selectedRoomData && (
-					<ChatRoomBody selectedRoomData={selectedRoomData} />
-				)}
-				{notJoinedRoomData && (
-					<ChatRoomBodyJoin notJoinedRoomData={notJoinedRoomData} />
-				)}
+				<ChatRoomBody
+					selectedRoomData={selectedRoomData}
+					selectedNotJoinedRoomData={selectedNotJoinedRoomData}
+				/>
 			</div>
 		</div>
 	);

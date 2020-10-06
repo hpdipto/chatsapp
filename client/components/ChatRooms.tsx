@@ -5,17 +5,17 @@ import { useSelector } from "react-redux";
 const ChatRooms: React.FC<{
 	roomsInfo;
 	setSelectedRoomIndex;
-	notJoinedRooms;
+	notJoinedRoomsInfo;
 	setSelectedNotJoinedRoomIndex;
 }> = ({
 	roomsInfo,
 	setSelectedRoomIndex,
-	notJoinedRooms,
+	notJoinedRoomsInfo,
 	setSelectedNotJoinedRoomIndex,
 }: {
 	roomsInfo: any;
 	setSelectedRoomIndex: any;
-	notJoinedRooms: any;
+	notJoinedRoomsInfo: any;
 	setSelectedNotJoinedRoomIndex: any;
 }) => {
 	const router = useRouter();
@@ -29,43 +29,43 @@ const ChatRooms: React.FC<{
 			>
 				<h4 className="pt-2 px-3">Chat Rooms</h4>
 				<div className="dropdown">
-					<form
-						className="bd-search"
+					<input
+						type="text"
+						className="form-control ds-input"
+						placeholder="Search rooms..."
+						id="dropdownMenuButton"
 						data-toggle="dropdown"
-						area-expanded="false"
-					>
-						<input
-							type="text"
-							className="form-control ds-input"
-							placeholder="Search rooms..."
-							data-toggle="dropdown"
-							aria-expanded="false"
-						/>
+						aria-haspopup="true"
+						aria-expanded="false"
+					/>
 
-						{notJoinedRooms && (
-							<div className="dropdown-menu w-100">
-								{notJoinedRooms
-									? notJoinedRooms.map((njr, index) => (
-											<div key={index}>
-												<span
-													className="dropdown-item"
-													style={{
-														cursor: "pointer",
-													}}
-													onClick={() => setSelectedNotJoinedRoomIndex(index)}
-												>
-													{njr.roomName}
-												</span>
+					{notJoinedRoomsInfo && (
+						<div
+							className="dropdown-menu w-100"
+							aria-labelledby="dropdownMenuButton"
+						>
+							{notJoinedRoomsInfo.map((njr, index) => {
+								return (
+									<div key={index}>
+										<span
+											className="dropdown-item"
+											style={{ cursor: "pointer" }}
+											onClick={() => {
+												console.log("njr index: ", njr.index);
+												setSelectedNotJoinedRoomIndex(njr.index);
+											}}
+										>
+											{njr.roomName}
+										</span>
 
-												{index != notJoinedRooms.length - 1 && (
-													<div className="dropdown-divider"></div>
-												)}
-											</div>
-									  ))
-									: null}
-							</div>
-						)}
-					</form>
+										{index != notJoinedRoomsInfo.length - 1 && (
+											<div className="dropdown-divider"></div>
+										)}
+									</div>
+								);
+							})}
+						</div>
+					)}
 				</div>
 			</div>
 
@@ -81,7 +81,10 @@ const ChatRooms: React.FC<{
 							<div
 								className="bg-secondary text-left px-2 py-2 border room-name"
 								key={index}
-								onClick={() => setSelectedRoomIndex(room.index)}
+								onClick={() => {
+									console.log("roomIndex: ", room.index);
+									setSelectedRoomIndex(room.index);
+								}}
 							>
 								{room.roomName}
 							</div>
