@@ -18,14 +18,29 @@ const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 				className="left-panel-top border mx-lg-n3"
 				style={{ background: "#c6e2f7" }}
 			>
-				<h4 className="pt-2  px-3">Chat Rooms</h4>
-				<form className="bd-search">
-					<input
-						type="text"
-						className="form-control ds-input"
-						placeholder="Search rooms..."
-					/>
-				</form>
+				<h4 className="pt-2 px-3">Chat Rooms</h4>
+				<div className="dropdown">
+					<form
+						className="bd-search"
+						data-toggle="dropdown"
+						area-expanded="false"
+					>
+						<input
+							type="text"
+							className="form-control ds-input"
+							placeholder="Search rooms..."
+							data-toggle="dropdown"
+							aria-expanded="false"
+						/>
+
+						<div className="dropdown-menu" style={{ width: "100% !important" }}>
+							<span className="dropdown-item">room 1</span>
+							<span className="dropdown-item">room 2</span>
+							<span className="dropdown-item">room 3</span>
+							<span className="dropdown-item">room 4</span>
+						</div>
+					</form>
+				</div>
 			</div>
 
 			<div
