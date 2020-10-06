@@ -39,7 +39,7 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 		}
 	);
 
-	console.log("notJoinedRooms: ", notJoinedRooms);
+	// console.log("notJoinedRooms: ", notJoinedRooms);
 
 	React.useEffect(() => {
 		if (roomsData && !roomsInfo) {
@@ -61,6 +61,7 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 				<ChatRooms
 					roomsInfo={roomsInfo}
 					setSelectedRoomIndex={setSelectedRoomIndex}
+					notJoinedRooms={notJoinedRooms}
 				/>
 
 				<ChatRoomBody selectedRoomData={selectedRoomData} />

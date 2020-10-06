@@ -2,12 +2,18 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
-const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
+const ChatRooms: React.FC<{
+	roomsInfo;
+	setSelectedRoomIndex;
+	notJoinedRooms;
+}> = ({
 	roomsInfo,
 	setSelectedRoomIndex,
+	notJoinedRooms,
 }: {
 	roomsInfo: any;
 	setSelectedRoomIndex;
+	notJoinedRooms;
 }) => {
 	const router = useRouter();
 	const { isAuthenticated } = useSelector((state) => state.auth);
@@ -33,12 +39,28 @@ const ChatRooms: React.FC<{ roomsInfo; setSelectedRoomIndex }> = ({
 							aria-expanded="false"
 						/>
 
-						<div className="dropdown-menu" style={{ width: "100% !important" }}>
-							<span className="dropdown-item">room 1</span>
-							<span className="dropdown-item">room 2</span>
-							<span className="dropdown-item">room 3</span>
-							<span className="dropdown-item">room 4</span>
-						</div>
+						{notJoinedRooms && (
+							<div className="dropdown-menu w-100">
+								{notJoinedRooms
+									? notJoinedRooms.map((njr, index) => (
+											<div key={index}>
+												<span
+													className="dropdown-item"
+													style={{
+														cursor: "pointer",
+													}}
+												>
+													{njr.roomName}
+												</span>
+
+												{index != notJoinedRooms.length - 1 && (
+													<div className="dropdown-divider"></div>
+												)}
+											</div>
+									  ))
+									: null}
+							</div>
+						)}
 					</form>
 				</div>
 			</div>
