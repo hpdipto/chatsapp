@@ -67,30 +67,23 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 			setNotJoinedRoomsInfo(() => [...njrInfo]);
 		}
 
-		// if (selectedRoomIndex !== null) {
-		// 	console.log("#");
-		// 	setSelectedRoomData(() => roomsData[selectedRoomIndex]);
-		// 	setSelectedNotJoinedRoomIndex(() => null);
-		// 	setSelectedNotJoinedRoomData(() => null);
-		// }
+		if (selectedRoomIndex !== null) {
+			setSelectedRoomData(() => roomsData[selectedRoomIndex]);
+			setSelectedNotJoinedRoomData(() => null);
+		}
 
-		// if (selectedNotJoinedRoomIndex !== null) {
-		// 	console.log("*");
-		// 	setSelectedNotJoinedRoomData(
-		// 		() => notJoinedRoomsData[selectedNotJoinedRoomIndex]
-		// 	);
-		// 	setSelectedRoomIndex(() => null);
-		// 	setSelectedRoomData(() => null);
-		// }
+		if (selectedNotJoinedRoomIndex !== null) {
+			setSelectedNotJoinedRoomData(
+				() => notJoinedRoomsData[selectedNotJoinedRoomIndex]
+			);
+			setSelectedRoomData(() => null);
+		}
 	}, [
 		roomsData,
 		notJoinedRoomsData,
 		selectedRoomIndex,
 		selectedNotJoinedRoomIndex,
 	]);
-
-	// console.log(notJoinedRoomsInfo);
-	console.log(selectedNotJoinedRoomIndex);
 
 	return (
 		<div className="container px-lg-5">

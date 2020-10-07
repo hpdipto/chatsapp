@@ -51,8 +51,8 @@ const ChatRooms: React.FC<{
 											className="dropdown-item"
 											style={{ cursor: "pointer" }}
 											onClick={() => {
-												console.log("njr index: ", njr.index);
 												setSelectedNotJoinedRoomIndex(njr.index);
+												setSelectedRoomIndex(null);
 											}}
 										>
 											{njr.roomName}
@@ -82,8 +82,8 @@ const ChatRooms: React.FC<{
 								className="bg-secondary text-left px-2 py-2 border room-name"
 								key={index}
 								onClick={() => {
-									console.log("roomIndex: ", room.index);
 									setSelectedRoomIndex(room.index);
+									setSelectedNotJoinedRoomIndex(null);
 								}}
 							>
 								{room.roomName}
