@@ -1,12 +1,18 @@
 import * as React from "react";
 
 const ChatRoomBody: React.FC<{
+	userId;
+	queryKey;
 	selectedRoomData;
 	selectedNotJoinedRoomData;
 }> = ({
+	userId,
+	queryKey,
 	selectedRoomData,
 	selectedNotJoinedRoomData,
 }: {
+	userId;
+	queryKey;
 	selectedRoomData: any;
 	selectedNotJoinedRoomData: any;
 }) => {
@@ -36,10 +42,20 @@ const ChatRoomBody: React.FC<{
 					<h5 className="px-3">selectARoom</h5>
 				)}
 			</div>
-			<p>Chat contents...</p>
-			<p>Chat contents...</p>
-			<p>Chat contents...</p>
-			<p>Chat contents...</p>
+
+			{!selectedNotJoinedRoomData && (
+				<div>
+					<p>Chat contents...</p>
+					<p>Chat contents...</p>
+					<p>Chat contents...</p>
+					<p>Chat contents...</p>
+				</div>
+			)}
+			{selectedNotJoinedRoomData && (
+				<div className="text-center">
+					<button className="btn btn-primary mt-5">Join</button>
+				</div>
+			)}
 		</div>
 	);
 };

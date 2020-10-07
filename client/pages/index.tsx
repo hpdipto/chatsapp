@@ -64,7 +64,11 @@ const Index: React.FC = () => {
 			<Navbar user={user} />
 
 			<div className="container">
-				{user ? <Body user={user} userID={userId} /> : <EmptyBody />}
+				{user ? (
+					<Body user={user} userID={userId} queryKey={queryKey} />
+				) : (
+					<EmptyBody />
+				)}
 			</div>
 		</div>
 	);

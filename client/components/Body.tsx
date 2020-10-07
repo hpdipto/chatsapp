@@ -7,14 +7,15 @@ import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
 
 import ChatRooms from "./ChatRooms";
 import ChatRoomBody from "./ChatRoomBody";
-import ChatRoomBodyJoin from "./ChatRoomBodyJoin";
 
-const Body: React.FC<{ user: any; userID: any }> = ({
+const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 	user,
 	userID,
+	queryKey,
 }: {
 	user: any;
 	userID: any;
+	queryKey: any;
 }) => {
 	const [roomsData, setRoomsData] = React.useState(null);
 	const [roomsInfo, setRoomsInfo] = React.useState(null);
@@ -96,6 +97,8 @@ const Body: React.FC<{ user: any; userID: any }> = ({
 				/>
 
 				<ChatRoomBody
+					userId={userID}
+					queryKey={queryKey}
 					selectedRoomData={selectedRoomData}
 					selectedNotJoinedRoomData={selectedNotJoinedRoomData}
 				/>
