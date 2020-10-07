@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useMutation } from "@apollo/client";
+
+import JoinRoomQuery from "../queries/joinRoom";
 
 const ChatRoomBody: React.FC<{
 	userId;
@@ -16,6 +19,15 @@ const ChatRoomBody: React.FC<{
 	selectedRoomData: any;
 	selectedNotJoinedRoomData: any;
 }) => {
+	// mutation for joining a room
+	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
+		ignoreResults: false,
+
+		onCompleted: (data) => {
+			console.log("Joined in room!");
+		},
+	});
+
 	return (
 		<div className="col-9 border bg-light">
 			<div
@@ -53,7 +65,20 @@ const ChatRoomBody: React.FC<{
 			)}
 			{selectedNotJoinedRoomData && (
 				<div className="text-center">
-					<button className="btn btn-primary mt-5">Join</button>
+					<button
+						className="btn btn-primary mt-5"
+						onClick={() =>
+							joinRoom({
+								variables: {
+									userId: userId,
+									queryKey: queryKey,
+									roomId: selectedNotJoinedRoomData.id,
+								},
+							})
+						}
+					>
+						Join
+					</button>
 				</div>
 			)}
 		</div>

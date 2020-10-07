@@ -51,6 +51,8 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 		}
 	);
 
+	// console.log(roomsData);
+
 	React.useEffect(() => {
 		if (roomsData && !roomsInfo) {
 			let rInfo = [];
