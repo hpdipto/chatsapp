@@ -6,25 +6,49 @@ import JoinRoomQuery from "../queries/joinRoom";
 const ChatRoomBody: React.FC<{
 	userId;
 	queryKey;
+	userChatRooms;
+	setUserChatRooms;
 	selectedRoomData;
 	selectedNotJoinedRoomData;
+	refetchRoomData;
+	refetchNotJoinedRoomData;
 }> = ({
 	userId,
 	queryKey,
+	userChatRooms,
+	setUserChatRooms,
 	selectedRoomData,
 	selectedNotJoinedRoomData,
+	refetchRoomData,
+	refetchNotJoinedRoomData,
 }: {
 	userId;
 	queryKey;
+	userChatRooms;
+	setUserChatRooms;
 	selectedRoomData: any;
 	selectedNotJoinedRoomData: any;
+	refetchRoomData;
+	refetchNotJoinedRoomData;
 }) => {
 	// mutation for joining a room
 	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
 		ignoreResults: false,
 
 		onCompleted: (data) => {
-			console.log("Joined in room!");
+			setUserChatRooms(() => [...userChatRooms, data.joinRoom.id]);
+			refetchRoomData({
+				variables: {
+					userIDs: [...userChatRooms, data.joinRoom.id],
+					userID: userId,
+				},
+			});
+			refetchNotJoinedRoomData({
+				variables: {
+					userIDs: [...userChatRooms, data.joinRoom.id],
+					userID: userId,
+				},
+			});
 		},
 	});
 

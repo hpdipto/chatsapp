@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 
 import GetRoomsDataQuery from "../queries/getRoomData";
 import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
@@ -17,6 +17,8 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 	userID: any;
 	queryKey: any;
 }) => {
+	const [userChatRooms, setUserChatRooms] = React.useState(null);
+
 	const [roomsData, setRoomsData] = React.useState(null);
 	const [roomsInfo, setRoomsInfo] = React.useState(null);
 	const [selectedRoomIndex, setSelectedRoomIndex] = React.useState(null);
@@ -35,26 +37,37 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 
 	const router = useRouter();
 
-	const { loading, error, data } = useQuery(GetRoomsDataQuery, {
-		variables: { roomIDs: user.chatRooms, userID: userID },
-		fetchPolicy: "network-only",
-		onCompleted: (data) => setRoomsData(() => [...data.getRoomsData]),
-	});
-
-	const { loading: loading_, error: error_, data: data_ } = useQuery(
-		GetNotJoinedRooms,
+	const [loadRoomData, { called, loading, data }] = useLazyQuery(
+		GetRoomsDataQuery,
 		{
-			variables: { roomIDs: user.chatRooms, userID: userID },
+			variables: { roomIDs: userChatRooms, userID: userID },
 			fetchPolicy: "network-only",
-			onCompleted: (data_) =>
-				setNotJoinedRoomsData(() => [...data_.getNotJoinedRooms]),
+			onCompleted: (data) => setRoomsData(() => [...data.getRoomsData]),
 		}
 	);
 
-	// console.log(roomsData);
+	const [
+		loadNotJoinedRoomData,
+		{ called: called_, loading: loading_, data: data_ },
+	] = useLazyQuery(GetNotJoinedRooms, {
+		variables: { roomIDs: userChatRooms, userID: userID },
+		fetchPolicy: "network-only",
+		onCompleted: (data_) =>
+			setNotJoinedRoomsData(() => [...data_.getNotJoinedRooms]),
+	});
 
 	React.useEffect(() => {
-		if (roomsData && !roomsInfo) {
+		if (user.chatRooms && userChatRooms === null) {
+			setUserChatRooms(user.chatRooms);
+		}
+
+		if (!roomsData || !notJoinedRoomsData) {
+			loadRoomData();
+			loadNotJoinedRoomData();
+		}
+
+		// some unnecessary calls will happen
+		if (roomsData) {
 			let rInfo = [];
 			roomsData.map((rd, i) =>
 				rInfo.push({ roomName: rd.roomName, roomId: rd.roomId, index: i })
@@ -62,7 +75,8 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setRoomsInfo(() => [...rInfo]);
 		}
 
-		if (notJoinedRoomsData && !notJoinedRoomsInfo) {
+		// some unnecessary calls will happen
+		if (notJoinedRoomsData) {
 			let njrInfo = [];
 			notJoinedRoomsData.map((njrd, i) =>
 				njrInfo.push({ roomName: njrd.roomName, roomId: njrd.roomId, index: i })
@@ -101,8 +115,12 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 				<ChatRoomBody
 					userId={userID}
 					queryKey={queryKey}
+					userChatRooms={userChatRooms}
+					setUserChatRooms={setUserChatRooms}
 					selectedRoomData={selectedRoomData}
 					selectedNotJoinedRoomData={selectedNotJoinedRoomData}
+					refetchRoomData={loadRoomData}
+					refetchNotJoinedRoomData={loadNotJoinedRoomData}
 				/>
 			</div>
 		</div>

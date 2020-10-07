@@ -9,6 +9,7 @@ const JoinRoomQuery = gql`
 				roomId: $roomId
 			}
 		) {
+			id
 			roomName
 			roomId
 			message
