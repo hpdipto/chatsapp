@@ -20,3 +20,9 @@ input getRoomData {
 	roomIds: [String]!
 	userId: String!
 }
+
+input joinRoomInput {
+	userId: String!
+	queryKey: String!
+	roomId: String!
+}

@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 import { User } from "../models/User";
 import Room from "../models/Room";
-import { UserType, Credentials, RoomType } from "../TYPES";
+import { UserType, Credentials, RoomType, JoinRoomCredentials } from "../TYPES";
 
 // 'registerUser' resolver
 const registerUser = async (parent: any, args: { user: UserType }) => {
@@ -69,10 +69,55 @@ const createRoom = async (parent: any, args: { room: RoomType }) => {
 	}
 };
 
+// 'joinRoom' resolver
+const joinRoom = async (
+	parent: any,
+	args: { joinRoomCredentials: JoinRoomCredentials },
+	context: any
+) => {
+	const { userId, queryKey, roomId } = args.joinRoomCredentials;
+
+	var errorObject: any = {
+		id: "",
+		roomName: "",
+		roomId: "",
+		users: [""],
+		admins: [""],
+		message: "",
+	};
+
+	const user = await User.findById(mongoose.Types.ObjectId(userId));
+	//@ts-ignore
+	if (user !== null && user.queryKey === queryKey) {
+		const room = await Room.findByIdAndUpdate(
+			mongoose.Types.ObjectId(roomId),
+			{ $push: { users: mongoose.Types.ObjectId(userId) } },
+			{ new: true }
+		);
+
+		if (room !== null) {
+			const updateUserInfo = await User.findByIdAndUpdate(
+				mongoose.Types.ObjectId(userId),
+				{ $push: { chatRooms: mongoose.Types.ObjectId(roomId) } },
+				{ new: true }
+			);
+
+			return room;
+		} else {
+			errorObject.message = "Room not found";
+			return errorObject;
+		}
+	} else {
+		errorObject.message = "User not found or credentials missing";
+		return errorObject;
+	}
+};
+
 // Mutation
 const Mutation = {
 	registerUser,
 	createRoom,
+	joinRoom,
 };
 
 export default Mutation;

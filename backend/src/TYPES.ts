@@ -22,4 +22,10 @@ export type RoomType {
 	users: Array<string>,
 	admins: Array<string>,
 	blockedUser?: Array<string>
-}
+};
+
+export type JoinRoomCredentials {
+	userId: string,
+	queryKey: string,
+	roomId: string
+};
