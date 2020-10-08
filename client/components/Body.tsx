@@ -19,13 +19,13 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 }) => {
 	const [userChatRooms, setUserChatRooms] = React.useState(null);
 
-	const [roomsData, setRoomsData] = React.useState(null);
-	const [roomsInfo, setRoomsInfo] = React.useState(null);
+	const [roomsData, setRoomsData] = React.useState([]);
+	const [roomsInfo, setRoomsInfo] = React.useState([]);
 	const [selectedRoomIndex, setSelectedRoomIndex] = React.useState(null);
 	const [selectedRoomData, setSelectedRoomData] = React.useState(null);
 
-	const [notJoinedRoomsData, setNotJoinedRoomsData] = React.useState(null);
-	const [notJoinedRoomsInfo, setNotJoinedRoomsInfo] = React.useState(null);
+	const [notJoinedRoomsData, setNotJoinedRoomsData] = React.useState([]);
+	const [notJoinedRoomsInfo, setNotJoinedRoomsInfo] = React.useState([]);
 	const [
 		selectedNotJoinedRoomIndex,
 		setSelectedNotJoinedRoomIndex,
@@ -58,25 +58,29 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 
 	React.useEffect(() => {
 		if (user.chatRooms && userChatRooms === null) {
-			setUserChatRooms(user.chatRooms);
+			setUserChatRooms(() => user.chatRooms);
 		}
 
-		if (!roomsData || !notJoinedRoomsData) {
+		if (roomsData.length === 0 || notJoinedRoomsData.length === 0) {
 			loadRoomData();
 			loadNotJoinedRoomData();
 		}
 
-		// some unnecessary calls will happen
-		if (roomsData) {
+		// if user joined a new room then we'll change
+		// selectedRoomIndex and selectedNotJoinedRoomIndex
+		if (roomsData.length > roomsInfo.length) {
+			setSelectedRoomIndex(roomsData.length - 1);
+			setSelectedNotJoinedRoomIndex(null);
+		}
+
+		if (roomsData.length > roomsInfo.length) {
 			let rInfo = [];
 			roomsData.map((rd, i) =>
 				rInfo.push({ roomName: rd.roomName, roomId: rd.roomId, index: i })
 			);
 			setRoomsInfo(() => [...rInfo]);
 		}
-
-		// some unnecessary calls will happen
-		if (notJoinedRoomsData) {
+		if (notJoinedRoomsData.length > notJoinedRoomsInfo.length) {
 			let njrInfo = [];
 			notJoinedRoomsData.map((njrd, i) =>
 				njrInfo.push({ roomName: njrd.roomName, roomId: njrd.roomId, index: i })
@@ -88,7 +92,6 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setSelectedRoomData(() => roomsData[selectedRoomIndex]);
 			setSelectedNotJoinedRoomData(() => null);
 		}
-
 		if (selectedNotJoinedRoomIndex !== null) {
 			setSelectedNotJoinedRoomData(
 				() => notJoinedRoomsData[selectedNotJoinedRoomIndex]
@@ -119,8 +122,8 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 					setUserChatRooms={setUserChatRooms}
 					selectedRoomData={selectedRoomData}
 					selectedNotJoinedRoomData={selectedNotJoinedRoomData}
-					refetchRoomData={loadRoomData}
-					refetchNotJoinedRoomData={loadNotJoinedRoomData}
+					loadRoomData={loadRoomData}
+					loadNotJoinedRoomData={loadNotJoinedRoomData}
 				/>
 			</div>
 		</div>

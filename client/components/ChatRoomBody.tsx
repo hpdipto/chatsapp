@@ -10,8 +10,8 @@ const ChatRoomBody: React.FC<{
 	setUserChatRooms;
 	selectedRoomData;
 	selectedNotJoinedRoomData;
-	refetchRoomData;
-	refetchNotJoinedRoomData;
+	loadRoomData;
+	loadNotJoinedRoomData;
 }> = ({
 	userId,
 	queryKey,
@@ -19,8 +19,8 @@ const ChatRoomBody: React.FC<{
 	setUserChatRooms,
 	selectedRoomData,
 	selectedNotJoinedRoomData,
-	refetchRoomData,
-	refetchNotJoinedRoomData,
+	loadRoomData,
+	loadNotJoinedRoomData,
 }: {
 	userId;
 	queryKey;
@@ -28,8 +28,8 @@ const ChatRoomBody: React.FC<{
 	setUserChatRooms;
 	selectedRoomData: any;
 	selectedNotJoinedRoomData: any;
-	refetchRoomData;
-	refetchNotJoinedRoomData;
+	loadRoomData;
+	loadNotJoinedRoomData;
 }) => {
 	// mutation for joining a room
 	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
@@ -37,13 +37,13 @@ const ChatRoomBody: React.FC<{
 
 		onCompleted: (data) => {
 			setUserChatRooms(() => [...userChatRooms, data.joinRoom.id]);
-			refetchRoomData({
+			loadRoomData({
 				variables: {
 					userIDs: [...userChatRooms, data.joinRoom.id],
 					userID: userId,
 				},
 			});
-			refetchNotJoinedRoomData({
+			loadNotJoinedRoomData({
 				variables: {
 					userIDs: [...userChatRooms, data.joinRoom.id],
 					userID: userId,
