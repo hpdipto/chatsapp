@@ -119,6 +119,7 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 				<ChatRoomBody
 					userId={userID}
 					queryKey={queryKey}
+					userName={`${user.firstName} ${user.lastName}`}
 					userChatRooms={userChatRooms}
 					setUserChatRooms={setUserChatRooms}
 					selectedRoomData={selectedRoomData}

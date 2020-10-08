@@ -6,6 +6,7 @@ import JoinRoomQuery from "../queries/joinRoom";
 const ChatRoomBody: React.FC<{
 	userId;
 	queryKey;
+	userName;
 	userChatRooms;
 	setUserChatRooms;
 	selectedRoomData;
@@ -15,6 +16,7 @@ const ChatRoomBody: React.FC<{
 }> = ({
 	userId,
 	queryKey,
+	userName,
 	userChatRooms,
 	setUserChatRooms,
 	selectedRoomData,
@@ -24,6 +26,7 @@ const ChatRoomBody: React.FC<{
 }: {
 	userId;
 	queryKey;
+	userName;
 	userChatRooms;
 	setUserChatRooms;
 	selectedRoomData: any;
@@ -32,8 +35,6 @@ const ChatRoomBody: React.FC<{
 	loadNotJoinedRoomData;
 }) => {
 	const [chatText, setChatText] = React.useState("");
-
-	console.log(selectedRoomData);
 
 	// mutation for joining a room
 	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
@@ -55,6 +56,21 @@ const ChatRoomBody: React.FC<{
 			});
 		},
 	});
+
+	const sendText = () => {
+		let textBody = {
+			roomId: selectedRoomData.id,
+			userName: userName,
+			userId: userId,
+			queryKey: queryKey,
+			text: chatText,
+			time: Date.now(),
+		};
+
+		setChatText(() => "");
+
+		if (textBody.text.length !== 0) console.log(textBody);
+	};
 
 	return (
 		<div className="col-9 border bg-light">
@@ -122,10 +138,13 @@ const ChatRoomBody: React.FC<{
 						className="form-control chatText"
 						rows={3}
 						cols={71}
+						value={chatText}
 						onChange={(e) => setChatText(e.target.value)}
 					/>
 					<div className="input-group-append">
-						<button className="input-group-text">Send</button>
+						<button className="input-group-text" onClick={sendText}>
+							Send
+						</button>
 					</div>
 				</div>
 			)}
