@@ -38,7 +38,8 @@ const CreateRoom: React.FC = () => {
 	// query for fetching user
 	const { loading, error, data } = useQuery(GetUserQuery, {
 		variables: { id: userId, key: queryKey },
-		onCompleted: (data) => setUser(data.getUser),
+		fetchPolicy: "network-only",
+		onCompleted: (data) => setUser(() => data.getUser),
 	});
 
 	React.useEffect(() => {
@@ -46,14 +47,17 @@ const CreateRoom: React.FC = () => {
 			.get("http://localhost:5000/user", { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
-					setUserId(res.data.userId);
-					setQueyrKey(res.data.queryKey);
+					setUserId(() => res.data.userId);
+					setQueyrKey(() => res.data.queryKey);
 				} else {
 					router.push("/");
 				}
 			})
 			.catch((err) => console.log(err));
 	}, []);
+
+	// console.log(user);
+	// console.log(userId);
 
 	const validate = (values: any) => {
 		const errors: any = {};
