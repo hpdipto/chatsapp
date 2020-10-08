@@ -27,6 +27,7 @@ const GuestUser: React.FC = () => {
 				<a href="/login" className="dropdown-item">
 					Login
 				</a>
+				<div className="dropdown-divider"></div>
 				<a href="/register" className="dropdown-item">
 					Register
 				</a>
@@ -58,6 +59,7 @@ const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 				<a href="#" className="dropdown-item">
 					Profile
 				</a>
+				<div className="dropdown-divider"></div>
 				<button
 					className="dropdown-item"
 					onClick={() => {
