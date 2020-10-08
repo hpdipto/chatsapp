@@ -79,32 +79,49 @@ const ChatRoomBody: React.FC<{
 				)}
 			</div>
 
-			{!selectedNotJoinedRoomData && (
-				<div>
-					<p>Chat contents...</p>
-					<p>Chat contents...</p>
-					<p>Chat contents...</p>
-					<p>Chat contents...</p>
+			<div
+				className="d-flex flex-column"
+				style={{ height: "calc(100vh - 39vh)" }}
+			>
+				{!selectedNotJoinedRoomData && (
+					<div>
+						<p>Chat contents...</p>
+						<p>Chat contents...</p>
+						<p>Chat contents...</p>
+						<p>Chat contents...</p>
+					</div>
+				)}
+				{selectedNotJoinedRoomData && (
+					<div className="text-center">
+						<button
+							className="btn btn-primary mt-5"
+							onClick={() =>
+								joinRoom({
+									variables: {
+										userId: userId,
+										queryKey: queryKey,
+										roomId: selectedNotJoinedRoomData.id,
+									},
+								})
+							}
+						>
+							Join
+						</button>
+					</div>
+				)}
+			</div>
+
+			<div className="input-group">
+				<textarea
+					id="chatText"
+					className="form-control chatText"
+					rows={3}
+					cols={71}
+				/>
+				<div className="input-group-append">
+					<button className="input-group-text">Send</button>
 				</div>
-			)}
-			{selectedNotJoinedRoomData && (
-				<div className="text-center">
-					<button
-						className="btn btn-primary mt-5"
-						onClick={() =>
-							joinRoom({
-								variables: {
-									userId: userId,
-									queryKey: queryKey,
-									roomId: selectedNotJoinedRoomData.id,
-								},
-							})
-						}
-					>
-						Join
-					</button>
-				</div>
-			)}
+			</div>
 		</div>
 	);
 };
