@@ -31,6 +31,10 @@ const ChatRoomBody: React.FC<{
 	loadRoomData;
 	loadNotJoinedRoomData;
 }) => {
+	const [chatText, setChatText] = React.useState("");
+
+	console.log(selectedRoomData);
+
 	// mutation for joining a room
 	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
 		ignoreResults: false,
@@ -111,17 +115,20 @@ const ChatRoomBody: React.FC<{
 				)}
 			</div>
 
-			<div className="input-group">
-				<textarea
-					id="chatText"
-					className="form-control chatText"
-					rows={3}
-					cols={71}
-				/>
-				<div className="input-group-append">
-					<button className="input-group-text">Send</button>
+			{selectedRoomData && (
+				<div className="input-group">
+					<textarea
+						id="chatText"
+						className="form-control chatText"
+						rows={3}
+						cols={71}
+						onChange={(e) => setChatText(e.target.value)}
+					/>
+					<div className="input-group-append">
+						<button className="input-group-text">Send</button>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };
