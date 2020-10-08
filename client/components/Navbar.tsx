@@ -38,6 +38,7 @@ const GuestUser: React.FC = () => {
 
 const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 	const dispatch = useDispatch();
+	const router = useRouter();
 
 	return (
 		<div className="dropdown">
@@ -64,6 +65,7 @@ const LoggedInUser: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 					className="dropdown-item"
 					onClick={() => {
 						dispatch(LogoutAction());
+						router.push("/");
 					}}
 				>
 					Logout
