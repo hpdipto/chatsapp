@@ -42,12 +42,12 @@ const ChatRooms: React.FC<{
 						aria-expanded="false"
 					/>
 
-					{notJoinedRoomsInfo && (
-						<div
-							className="dropdown-menu w-100"
-							aria-labelledby="dropdownMenuButton"
-						>
-							{notJoinedRoomsInfo.map((njr, index) => {
+					<div
+						className="dropdown-menu w-100"
+						aria-labelledby="dropdownMenuButton"
+					>
+						{notJoinedRoomsInfo &&
+							notJoinedRoomsInfo.map((njr, index) => {
 								return (
 									<div key={index}>
 										<span
@@ -67,8 +67,7 @@ const ChatRooms: React.FC<{
 									</div>
 								);
 							})}
-						</div>
-					)}
+					</div>
 				</div>
 			</div>
 
