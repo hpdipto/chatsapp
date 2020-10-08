@@ -68,7 +68,7 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 
 		// if user joined a new room then we'll change
 		// selectedRoomIndex and selectedNotJoinedRoomIndex
-		if (roomsData.length > roomsInfo.length) {
+		if (roomsInfo.length !== 0 && roomsData.length > roomsInfo.length) {
 			setSelectedRoomIndex(roomsData.length - 1);
 			setSelectedNotJoinedRoomIndex(null);
 		}
