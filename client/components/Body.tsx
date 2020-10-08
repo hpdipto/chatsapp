@@ -73,14 +73,14 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setSelectedNotJoinedRoomIndex(null);
 		}
 
-		if (roomsData.length > roomsInfo.length) {
+		if (roomsData.length !== roomsInfo.length) {
 			let rInfo = [];
 			roomsData.map((rd, i) =>
 				rInfo.push({ roomName: rd.roomName, roomId: rd.roomId, index: i })
 			);
 			setRoomsInfo(() => [...rInfo]);
 		}
-		if (notJoinedRoomsData.length > notJoinedRoomsInfo.length) {
+		if (notJoinedRoomsData.length !== notJoinedRoomsInfo.length) {
 			let njrInfo = [];
 			notJoinedRoomsData.map((njrd, i) =>
 				njrInfo.push({ roomName: njrd.roomName, roomId: njrd.roomId, index: i })
@@ -110,6 +110,7 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
 				<ChatRooms
 					roomsInfo={roomsInfo}
+					selectedRoomIndex={selectedRoomIndex}
 					setSelectedRoomIndex={setSelectedRoomIndex}
 					notJoinedRoomsInfo={notJoinedRoomsInfo}
 					setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}

@@ -4,16 +4,19 @@ import { useSelector } from "react-redux";
 
 const ChatRooms: React.FC<{
 	roomsInfo;
+	selectedRoomIndex;
 	setSelectedRoomIndex;
 	notJoinedRoomsInfo;
 	setSelectedNotJoinedRoomIndex;
 }> = ({
 	roomsInfo,
+	selectedRoomIndex,
 	setSelectedRoomIndex,
 	notJoinedRoomsInfo,
 	setSelectedNotJoinedRoomIndex,
 }: {
 	roomsInfo: any;
+	selectedRoomIndex: any;
 	setSelectedRoomIndex: any;
 	notJoinedRoomsInfo: any;
 	setSelectedNotJoinedRoomIndex: any;
@@ -79,7 +82,10 @@ const ChatRooms: React.FC<{
 					roomsInfo.map((room, index) => {
 						return (
 							<div
-								className="bg-secondary text-left px-2 py-2 border room-name"
+								className={
+									"bg-secondary text-left px-2 py-2 border room-name" +
+									(selectedRoomIndex === index ? " selected-room" : "")
+								}
 								key={index}
 								onClick={() => {
 									setSelectedRoomIndex(room.index);

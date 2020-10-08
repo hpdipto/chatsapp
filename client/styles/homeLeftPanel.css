@@ -2,6 +2,10 @@
 	cursor: pointer;
 }
 
+.selected-room {
+	color: #dae4eb;
+}
+
 .room-name:hover {
 	color: #dae4eb !important;
 }
