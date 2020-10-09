@@ -8,6 +8,14 @@ type Room {
 	message: String
 }
 
+type sendTextResult {
+	userName: String!
+	userId: String!
+	text: String!
+	time: String!
+	message: String
+}
+
 input roomInput {
 	roomName: String!
 	roomId: String!
@@ -25,4 +33,13 @@ input joinRoomInput {
 	userId: String!
 	queryKey: String!
 	roomId: String!
+}
+
+input textBodyInput {
+	roomId: String!
+	userName: String!
+	userId: String!
+	queryKey: String!
+	text: String!
+	time: String!
 }

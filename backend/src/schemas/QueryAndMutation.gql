@@ -12,4 +12,5 @@ type Mutation {
 	registerUser(user: registerUser): User
 	createRoom(room: roomInput): Room
 	joinRoom(joinRoomCredentials: joinRoomInput): Room
+	sendText(textBody: textBodyInput): sendTextResult
 }

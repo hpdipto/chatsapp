@@ -6,7 +6,13 @@ import mongoose from "mongoose";
 
 import { User } from "../models/User";
 import Room from "../models/Room";
-import { UserType, Credentials, RoomType, JoinRoomCredentials } from "../TYPES";
+import {
+	UserType,
+	Credentials,
+	RoomType,
+	JoinRoomCredentials,
+	TextBodyType,
+} from "../TYPES";
 
 // 'registerUser' resolver
 const registerUser = async (parent: any, args: { user: UserType }) => {
@@ -113,11 +119,40 @@ const joinRoom = async (
 	}
 };
 
+// 'sendText' resolver
+const sendText = async (
+	parent: any,
+	args: { textBody: TextBodyType },
+	context: any
+) => {
+	const { roomId, userName, userId, queryKey, text, time } = args.textBody;
+
+	var room = await Room.findByIdAndUpdate(
+		mongoose.Types.ObjectId(roomId),
+		{ $push: { chats: args.textBody } },
+		{ new: true }
+	);
+
+	const result: any = {
+		userName: userName,
+	};
+	if (room === null) {
+		result["message"] = "Room not found";
+	} else {
+		result["userId"] = userId;
+		result["text"] = text;
+		result["time"] = time;
+		result["message"] = "Message send successfully";
+	}
+	return result;
+};
+
 // Mutation
 const Mutation = {
 	registerUser,
 	createRoom,
 	joinRoom,
+	sendText,
 };
 
 export default Mutation;

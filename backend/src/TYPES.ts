@@ -29,3 +29,12 @@ export type JoinRoomCredentials {
 	queryKey: string,
 	roomId: string
 };
+
+export type TextBodyType {
+	roomId: string,
+	userName: string,
+	userId: string,
+	queryKey: string,
+	text: string,
+	time: Date
+}
