@@ -2,6 +2,7 @@ import * as React from "react";
 import { useMutation } from "@apollo/client";
 
 import JoinRoomQuery from "../queries/joinRoom";
+import SendTextQuery from "../queries/sendText";
 
 const ChatRoomBody: React.FC<{
 	userId;
@@ -57,6 +58,16 @@ const ChatRoomBody: React.FC<{
 		},
 	});
 
+	// mutation for sending text
+	const [sendTextFunc, { data: data_ }] = useMutation(SendTextQuery, {
+		ignoreResults: false,
+
+		onCompleted: (data_) => {
+			// some more operation needed
+			console.log(data_.sendText);
+		},
+	});
+
 	const sendText = () => {
 		let textBody = {
 			roomId: selectedRoomData.id,
@@ -64,12 +75,15 @@ const ChatRoomBody: React.FC<{
 			userId: userId,
 			queryKey: queryKey,
 			text: chatText,
-			time: Date.now(),
+			time: Date.now().toString(),
 		};
 
 		setChatText(() => "");
 
-		if (textBody.text.length !== 0) console.log(textBody);
+		if (textBody.text.length !== 0) {
+			// useMutation
+			sendTextFunc({ variables: { ...textBody } });
+		}
 	};
 
 	return (
