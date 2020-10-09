@@ -96,6 +96,15 @@ const ChatRoomBody: React.FC<{
 		}
 	};
 
+	const convertToDate = (date: string) => {
+		let d = new Date(parseInt(date));
+		let dateSring = d.toDateString();
+		let hours = d.getHours();
+		let minutes = d.getMinutes();
+
+		return `${dateSring} ${hours}:${minutes}`;
+	};
+
 	return (
 		<div className="col-9 border bg-light overflow-auto">
 			<div
@@ -137,7 +146,7 @@ const ChatRoomBody: React.FC<{
 							>
 								<div className="card-header">{chat.userName}</div>
 								<div className="card-body">{chat.text}</div>
-								<div className="card-footer">{chat.time}</div>
+								<div className="card-footer">{convertToDate(chat.time)}</div>
 							</div>
 						))}
 					</div>
