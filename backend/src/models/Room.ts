@@ -24,6 +24,9 @@ const RoomSchema: mongoose.Schema<RoomType> = new Schema({
 	blockedUsers: {
 		type: [String],
 	},
+	chats: {
+		type: [Object],
+	},
 });
 
 const Room = mongoose.model("Room", RoomSchema);

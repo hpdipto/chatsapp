@@ -5,6 +5,7 @@ type Room {
 	users: [String]!
 	admins: [String]!
 	blockedUser: [String]
+	chats: [String]
 	message: String
 }
 
