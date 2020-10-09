@@ -39,6 +39,13 @@ const ChatRoomBody: React.FC<{
 	loadNotJoinedRoomData;
 }) => {
 	const [chatText, setChatText] = React.useState("");
+	var lastChatRef = React.useRef(null);
+
+	React.useEffect(() => {
+		if (lastChatRef.current !== null) {
+			lastChatRef.current.scrollIntoView();
+		}
+	});
 
 	// mutation for joining a room
 	const [joinRoom, { data }] = useMutation(JoinRoomQuery, {
@@ -116,11 +123,18 @@ const ChatRoomBody: React.FC<{
 				)}
 			</div>
 
-			<div className="d-flex flex-column" style={{ height: "100vh" }}>
+			<div
+				className="d-flex flex-column overflow-auto"
+				style={{ height: "calc(100vh - 41vh)", backgroundColor: "#e4e8f2" }}
+			>
 				{selectedRoomData && (
 					<div>
 						{selectedRoomData["chats"].map((chat, index) => (
-							<div key={index} className="card mb-2 w-50">
+							<div
+								key={index}
+								ref={(e) => (lastChatRef.current = e)}
+								className="card mb-2 w-50"
+							>
 								<div className="card-header">{chat.userName}</div>
 								<div className="card-body">{chat.text}</div>
 								<div className="card-footer">{chat.time}</div>
