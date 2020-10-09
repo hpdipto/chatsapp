@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useQuery, useLazyQuery } from "@apollo/client";
 
-import GetRoomsDataQuery from "../queries/getRoomData";
+import GetRoomsDataQuery from "../queries/getRoomsData";
 import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
 
 import ChatRooms from "./ChatRooms";
@@ -61,7 +61,8 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setUserChatRooms(() => user.chatRooms);
 		}
 
-		if (roomsData.length === 0 || notJoinedRoomsData.length === 0) {
+		// not sure about the '&&' condition
+		if (roomsData.length === 0 && notJoinedRoomsData.length === 0) {
 			loadRoomData();
 			loadNotJoinedRoomData();
 		}
@@ -123,6 +124,7 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 					userChatRooms={userChatRooms}
 					setUserChatRooms={setUserChatRooms}
 					selectedRoomData={selectedRoomData}
+					setSelectedRoomData={setSelectedRoomData}
 					selectedNotJoinedRoomData={selectedNotJoinedRoomData}
 					loadRoomData={loadRoomData}
 					loadNotJoinedRoomData={loadNotJoinedRoomData}

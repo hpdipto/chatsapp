@@ -9,6 +9,12 @@ const GetRoomsDataQuery = gql`
 			users
 			blockedUser
 			message
+			chats {
+				userName
+				userId
+				text
+				time
+			}
 		}
 	}
 `;

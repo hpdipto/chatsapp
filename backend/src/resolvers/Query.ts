@@ -42,7 +42,7 @@ const getRoomsData = async (parent: any, args: any, context: any) => {
 	let roomData: any = [];
 
 	for (var r = 0; r < roomIds.length; r++) {
-		let room = await Room.findById(mongoose.Types.ObjectId(roomIds[r]));
+		let room: any = await Room.findById(mongoose.Types.ObjectId(roomIds[r]));
 		//@ts-ignore
 		let roomUsers = room.users;
 		for (var i = 0; i < roomUsers.length; i++) {
@@ -51,21 +51,26 @@ const getRoomsData = async (parent: any, args: any, context: any) => {
 				break;
 			}
 		}
+
+		// if user not found in the room
+		if (i === roomUsers.length) {
+			roomData.push({
+				id: room.id,
+				roomName: room.roomName,
+				roomId: room.roomId,
+				users: [],
+				admins: [],
+				blockedUser: [],
+				message: "Unauthorized user",
+			});
+		}
 	}
 
 	if (roomData.length) {
 		return roomData;
+	} else {
+		return [];
 	}
-
-	let emptyRoom = {
-		//@ts-ignore
-		...room._doc,
-		users: [],
-		admins: [],
-		blockedUser: [],
-		message: "Unauthorized user",
-	};
-	return emptyRoom;
 };
 
 // Resolver for getting not joined rooms for a particular user

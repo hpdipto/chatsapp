@@ -5,15 +5,15 @@ type Room {
 	users: [String]!
 	admins: [String]!
 	blockedUser: [String]
-	chats: [String]
+	chats: [sendTextResult]
 	message: String
 }
 
 type sendTextResult {
-	userName: String!
-	userId: String!
-	text: String!
-	time: String!
+	userName: String
+	userId: String
+	text: String
+	time: String
 	message: String
 }
 

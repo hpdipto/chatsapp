@@ -11,6 +11,7 @@ const ChatRoomBody: React.FC<{
 	userChatRooms;
 	setUserChatRooms;
 	selectedRoomData;
+	setSelectedRoomData;
 	selectedNotJoinedRoomData;
 	loadRoomData;
 	loadNotJoinedRoomData;
@@ -21,6 +22,7 @@ const ChatRoomBody: React.FC<{
 	userChatRooms,
 	setUserChatRooms,
 	selectedRoomData,
+	setSelectedRoomData,
 	selectedNotJoinedRoomData,
 	loadRoomData,
 	loadNotJoinedRoomData,
@@ -31,6 +33,7 @@ const ChatRoomBody: React.FC<{
 	userChatRooms;
 	setUserChatRooms;
 	selectedRoomData: any;
+	setSelectedRoomData;
 	selectedNotJoinedRoomData: any;
 	loadRoomData;
 	loadNotJoinedRoomData;
@@ -45,13 +48,13 @@ const ChatRoomBody: React.FC<{
 			setUserChatRooms(() => [...userChatRooms, data.joinRoom.id]);
 			loadRoomData({
 				variables: {
-					userIDs: [...userChatRooms, data.joinRoom.id],
+					roomIDs: [...userChatRooms, data.joinRoom.id],
 					userID: userId,
 				},
 			});
 			loadNotJoinedRoomData({
 				variables: {
-					userIDs: [...userChatRooms, data.joinRoom.id],
+					roomIDs: [...userChatRooms, data.joinRoom.id],
 					userID: userId,
 				},
 			});
@@ -63,8 +66,9 @@ const ChatRoomBody: React.FC<{
 		ignoreResults: false,
 
 		onCompleted: (data_) => {
-			// some more operation needed
-			console.log(data_.sendText);
+			loadRoomData({
+				variables: { userIDs: [...userChatRooms], userId: userId },
+			});
 		},
 	});
 
@@ -81,13 +85,12 @@ const ChatRoomBody: React.FC<{
 		setChatText(() => "");
 
 		if (textBody.text.length !== 0) {
-			// useMutation
-			sendTextFunc({ variables: { ...textBody } });
+			sendTextFunc({ variables: textBody });
 		}
 	};
 
 	return (
-		<div className="col-9 border bg-light">
+		<div className="col-9 border bg-light overflow-auto">
 			<div
 				className="left-panel-top border mx-lg-n3"
 				style={{ background: "#c6e2f7" }}
@@ -113,16 +116,16 @@ const ChatRoomBody: React.FC<{
 				)}
 			</div>
 
-			<div
-				className="d-flex flex-column"
-				style={{ height: "calc(100vh - 39vh)" }}
-			>
-				{!selectedNotJoinedRoomData && (
+			<div className="d-flex flex-column" style={{ height: "100vh" }}>
+				{selectedRoomData && (
 					<div>
-						<p>Chat contents...</p>
-						<p>Chat contents...</p>
-						<p>Chat contents...</p>
-						<p>Chat contents...</p>
+						{selectedRoomData["chats"].map((chat, index) => (
+							<div key={index} className="card mb-2 w-50">
+								<div className="card-header">{chat.userName}</div>
+								<div className="card-body">{chat.text}</div>
+								<div className="card-footer">{chat.time}</div>
+							</div>
+						))}
 					</div>
 				)}
 				{selectedNotJoinedRoomData && (

@@ -11,7 +11,7 @@ import Body from "../components/Body";
 import EmptyBody from "../components/EmptyBody";
 
 import GetUserQuery from "../queries/fetchUser";
-import GetRoomDataQuery from "../queries/getRoomData";
+import GetRoomsDataQuery from "../queries/getRoomsData";
 
 import { useSelector, useDispatch } from "react-redux";
 
