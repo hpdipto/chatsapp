@@ -142,7 +142,12 @@ const ChatRoomBody: React.FC<{
 							<div
 								key={index}
 								ref={(e) => (lastChatRef.current = e)}
-								className="card mb-2 w-50"
+								className={
+									"card mb-2 w-50" +
+									(selectedRoomData["chats"][index].userId === userId
+										? " ml-auto"
+										: "")
+								}
 							>
 								<div className="card-header">{chat.userName}</div>
 								<div className="card-body">{chat.text}</div>
