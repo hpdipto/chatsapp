@@ -2,13 +2,7 @@ import fs from "fs";
 import path from "path";
 import http from "http";
 import express, { Application, Request, Response, NextFunction } from "express";
-import {
-	ApolloServer,
-	PubSub,
-	makeExecutableSchema,
-} from "apollo-server-express";
-import { SubscriptionServer } from "subscriptions-transport-ws";
-import { execute, subscribe } from "graphql";
+import { ApolloServer, PubSub } from "apollo-server-express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -128,17 +122,3 @@ httpServer.listen(PORT, () => {
 		`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
 	);
 });
-
-// httpServer.listen(PORT, () => {
-// 	new SubscriptionServer(
-// 		{
-// 			execute,
-// 			subscribe,
-// 			schema,
-// 		},
-// 		{
-// 			server: httpServer,
-// 			path: "/subscriptions",
-// 		}
-// 	);
-// });

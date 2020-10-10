@@ -3,9 +3,9 @@ import Mutation from "./Mutation";
 import Subscription from "./Subscription";
 
 const resolvers = {
+	Subscription,
 	Query,
 	Mutation,
-	Subscription,
 };
 
 export default resolvers;

@@ -145,7 +145,7 @@ const sendText = async (
 		newChat["message"] = "Message send successfully";
 	}
 
-	context.pubsub.publish("NEW_CHAT", { ...newChat });
+	context.pubsub.publish(roomId, { newChatSubscription: newChat });
 	return newChat;
 };
 
