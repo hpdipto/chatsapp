@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import express, { Application, Request, Response, NextFunction } from "express";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, PubSub } from "apollo-server-express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -65,6 +65,9 @@ const authenticator = (req: Request, res: Response, next: NextFunction) => ({
 	req,
 });
 
+// GraphQL subscription
+export const pubsub = new PubSub();
+
 // loading schema file, typeDefs and resolvers
 const userScemaFile = path.join(__dirname, "./schemas/UserSchema.gql");
 let typeDefs = fs.readFileSync(userScemaFile, "utf-8");
@@ -84,7 +87,7 @@ import resolvers from "./resolvers/resolvers";
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	context: authenticator,
+	context: { pubsub },
 });
 
 // graphQL server middleware

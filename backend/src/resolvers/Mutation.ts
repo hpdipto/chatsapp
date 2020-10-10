@@ -126,6 +126,7 @@ const sendText = async (
 	context: any
 ) => {
 	const { roomId, userName, userId, queryKey, text, time } = args.textBody;
+	const { pubsub } = context;
 
 	var room = await Room.findByIdAndUpdate(
 		mongoose.Types.ObjectId(roomId),
@@ -144,6 +145,8 @@ const sendText = async (
 		result["time"] = time;
 		result["message"] = "Message send successfully";
 	}
+
+	pubsub.publish("NEW_CHAT", result);
 	return result;
 };
 
