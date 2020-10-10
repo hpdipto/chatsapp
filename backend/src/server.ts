@@ -1,7 +1,14 @@
 import fs from "fs";
 import path from "path";
+import http from "http";
 import express, { Application, Request, Response, NextFunction } from "express";
-import { ApolloServer, PubSub } from "apollo-server-express";
+import {
+	ApolloServer,
+	PubSub,
+	makeExecutableSchema,
+} from "apollo-server-express";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import { execute, subscribe } from "graphql";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -93,6 +100,10 @@ const server = new ApolloServer({
 // graphQL server middleware
 server.applyMiddleware({ app, path: "/graphql" });
 
+// server for subscription
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
 // Routes
 import routes from "./routes/authentication";
 
@@ -107,4 +118,27 @@ app.use(routes);
 const PORT: string | number = process.env.PORT || 5000;
 
 // server start
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+httpServer.listen(PORT, () => {
+	console.log(
+		`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+	);
+	console.log(
+		`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+	);
+});
+
+// httpServer.listen(PORT, () => {
+// 	new SubscriptionServer(
+// 		{
+// 			execute,
+// 			subscribe,
+// 			schema,
+// 		},
+// 		{
+// 			server: httpServer,
+// 			path: "/subscriptions",
+// 		}
+// 	);
+// });

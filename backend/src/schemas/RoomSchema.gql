@@ -44,3 +44,7 @@ input textBodyInput {
 	text: String!
 	time: String!
 }
+
+input roomIDs {
+	roomIds: [String]
+}

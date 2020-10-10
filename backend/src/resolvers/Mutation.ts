@@ -126,7 +126,6 @@ const sendText = async (
 	context: any
 ) => {
 	const { roomId, userName, userId, queryKey, text, time } = args.textBody;
-	const { pubsub } = context;
 
 	var room = await Room.findByIdAndUpdate(
 		mongoose.Types.ObjectId(roomId),
@@ -134,20 +133,20 @@ const sendText = async (
 		{ new: true }
 	);
 
-	const result: any = {
+	const newChat: any = {
 		userName: userName,
 	};
 	if (room === null) {
-		result["message"] = "Room not found";
+		newChat["message"] = "Room not found";
 	} else {
-		result["userId"] = userId;
-		result["text"] = text;
-		result["time"] = time;
-		result["message"] = "Message send successfully";
+		newChat["userId"] = userId;
+		newChat["text"] = text;
+		newChat["time"] = time;
+		newChat["message"] = "Message send successfully";
 	}
 
-	pubsub.publish("NEW_CHAT", result);
-	return result;
+	context.pubsub.publish("NEW_CHAT", { ...newChat });
+	return newChat;
 };
 
 // Mutation

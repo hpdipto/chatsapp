@@ -1,4 +1,4 @@
-# Queries and Mutation
+# Queries, Mutations ans Subscription
 
 type Query {
 	allUser: [User]
@@ -16,5 +16,5 @@ type Mutation {
 }
 
 type Subscription {
-	newChat: Chat
+	newChatSubscription(room: String): Chat
 }

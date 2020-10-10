@@ -39,6 +39,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-strategy": "^1.0.0",
+    "subscriptions-transport-ws": "^0.9.18",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
