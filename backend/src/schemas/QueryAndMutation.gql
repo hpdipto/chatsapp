@@ -16,5 +16,5 @@ type Mutation {
 }
 
 type Subscription {
-	newChatSubscription(room: String): Chat
+	newChatSubscription(rooms: [String]): Chat
 }
