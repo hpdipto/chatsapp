@@ -1,9 +1,10 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery, useSubscription } from "@apollo/client";
 
 import GetRoomsDataQuery from "../queries/getRoomsData";
 import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
+import NewChatSubscriptonQuery from "../queries/newChatSubscription";
 
 import ChatRooms from "./ChatRooms";
 import ChatRoomBody from "./ChatRoomBody";
@@ -56,7 +57,19 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setNotJoinedRoomsData(() => [...data_.getNotJoinedRooms]),
 	});
 
+	const LatestChat = () => {
+		const { data: data_subs, loading: subs_loading } = useSubscription(
+			NewChatSubscriptonQuery,
+			{
+				variables: { rooms: userChatRooms },
+				onSubscriptionData: (data_subs) => loadRoomData(),
+			}
+		);
+	};
+
 	React.useEffect(() => {
+		console.log(roomsData);
+
 		if (user.chatRooms && userChatRooms === null) {
 			setUserChatRooms(() => user.chatRooms);
 		}
