@@ -52,7 +52,7 @@ const link = process.browser
 	: httpLink;
 
 const client = new ApolloClient({
-	link: httpLink,
+	link: link,
 	uri: "http://localhost:5000/graphql",
 	cache: new InMemoryCache(),
 });

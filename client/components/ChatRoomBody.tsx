@@ -156,6 +156,7 @@ const ChatRoomBody: React.FC<{
 						))}
 					</div>
 				)}
+
 				{selectedNotJoinedRoomData && (
 					<div className="text-center">
 						<button

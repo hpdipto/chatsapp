@@ -57,19 +57,16 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 			setNotJoinedRoomsData(() => [...data_.getNotJoinedRooms]),
 	});
 
-	const LatestChat = () => {
-		const { data: data_subs, loading: subs_loading } = useSubscription(
-			NewChatSubscriptonQuery,
-			{
-				variables: { rooms: userChatRooms },
-				onSubscriptionData: (data_subs) => loadRoomData(),
-			}
-		);
-	};
+	const { data: data_subs, loading: subs_loading } = useSubscription(
+		NewChatSubscriptonQuery,
+		{
+			variables: { rooms: userChatRooms },
+			skip: false,
+			onSubscriptionData: (data_subs) => loadRoomData(),
+		}
+	);
 
 	React.useEffect(() => {
-		console.log(roomsData);
-
 		if (user.chatRooms && userChatRooms === null) {
 			setUserChatRooms(() => user.chatRooms);
 		}
