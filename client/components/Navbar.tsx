@@ -89,15 +89,28 @@ const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 				/>
 				<title>ChatsApp</title>
 			</Head>
-			<nav className="navbar navbar-dark bg-primary">
+
+			<nav className="navbar navbar-expand-md navbar-dark bg-primary">
+				<button
+					className="navbar-toggler"
+					type="button"
+					data-toggle="modal"
+					data-target="#chatRooms"
+				>
+					<span className="navbar-toggler-icon"></span>
+				</button>
+
 				<h2
+					className="navbar-brand"
 					style={{ color: "white", cursor: "pointer" }}
 					onClick={() => router.push("/")}
 				>
 					ChatsApp
 				</h2>
 
-				{user ? <LoggedInUser user={user} /> : <GuestUser />}
+				<ul className="navbar-nav ml-auto">
+					{user ? <LoggedInUser user={user} /> : <GuestUser />}
+				</ul>
 			</nav>
 
 			<script

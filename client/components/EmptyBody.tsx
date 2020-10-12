@@ -1,14 +1,38 @@
 import * as React from "react";
 
-import ChatRooms from "./ChatRooms";
+import ChatRoomsModal from "./ChatRoomsModal";
+import ChatRoomsAutoHide from "./ChatRoomsAutoHide";
 
 const EmptyBody: React.FC = () => {
 	return (
 		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				<ChatRooms roomsInfo={undefined} setSelectedRoomIndex={undefined} />
+				<div
+					className="modal fade"
+					id="chatRooms"
+					tabIndex={-1}
+					area-hidden="true"
+				>
+					<div className="modal-dialog">
+						<ChatRoomsModal
+							roomsInfo={undefined}
+							selectedRoomIndex={undefined}
+							setSelectedRoomIndex={undefined}
+							notJoinedRoomsInfo={undefined}
+							setSelectedNotJoinedRoomIndex={undefined}
+						/>
+					</div>
+				</div>
 
-				<div className="col-9 border bg-light">
+				<ChatRoomsAutoHide
+					roomsInfo={undefined}
+					selectedRoomIndex={undefined}
+					setSelectedRoomIndex={undefined}
+					notJoinedRoomsInfo={undefined}
+					setSelectedNotJoinedRoomIndex={undefined}
+				/>
+
+				<div className="col border bg-light">
 					<div
 						className="left-panel-top border mx-lg-n3"
 						style={{ background: "#c6e2f7" }}

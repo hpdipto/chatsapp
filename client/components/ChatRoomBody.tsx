@@ -106,7 +106,7 @@ const ChatRoomBody: React.FC<{
 	};
 
 	return (
-		<div className="col-9 border bg-light overflow-auto">
+		<div className="col border bg-light overflow-auto">
 			<div
 				className="left-panel-top border mx-lg-n3"
 				style={{ background: "#c6e2f7" }}

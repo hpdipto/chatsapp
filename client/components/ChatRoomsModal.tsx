@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
-const ChatRooms: React.FC<{
+const ChatRoomsModal: React.FC<{
 	roomsInfo;
 	selectedRoomIndex;
 	setSelectedRoomIndex;
@@ -25,7 +25,7 @@ const ChatRooms: React.FC<{
 	const { isAuthenticated } = useSelector((state) => state.auth);
 
 	return (
-		<div className="col-3 border bg-light">
+		<div className="col-6 border bg-light modal-content">
 			<div
 				className="left-panel-top border mx-lg-n3"
 				style={{ background: "#c6e2f7" }}
@@ -117,4 +117,4 @@ const ChatRooms: React.FC<{
 	);
 };
 
-export default ChatRooms;
+export default ChatRoomsModal;
