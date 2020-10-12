@@ -87,6 +87,7 @@ const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 					integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
 					crossOrigin="anonymous"
 				/>
+				<link rel="icon" href="/chat.png" />
 				<title>ChatsApp</title>
 			</Head>
 
@@ -100,8 +101,13 @@ const Navbar: React.FC<{ user: any }> = ({ user }: { user: any }) => {
 					<span className="navbar-toggler-icon"></span>
 				</button>
 
+				<img
+					src="/chat.png"
+					alt="logo"
+					width="40"
+					style={{ cursor: "pointer" }}
+				/>
 				<h2
-					className="navbar-brand"
 					style={{ color: "white", cursor: "pointer" }}
 					onClick={() => router.push("/")}
 				>
