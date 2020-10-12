@@ -57,6 +57,7 @@ const ChatRoomsModal: React.FC<{
 												setSelectedNotJoinedRoomIndex(njr.index);
 												setSelectedRoomIndex(null);
 											}}
+											data-dismiss="modal"
 										>
 											{njr.roomName}
 										</span>
@@ -90,6 +91,7 @@ const ChatRoomsModal: React.FC<{
 									setSelectedRoomIndex(room.index);
 									setSelectedNotJoinedRoomIndex(null);
 								}}
+								data-dismiss="modal"
 							>
 								{room.roomName}
 							</div>
@@ -108,6 +110,7 @@ const ChatRoomsModal: React.FC<{
 					<div
 						className="text-left py-2 px-2 mx-lg border create-room"
 						onClick={() => router.push("/create")}
+						data-dismiss="modal"
 					>
 						Create Room
 					</div>

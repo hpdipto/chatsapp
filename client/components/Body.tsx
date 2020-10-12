@@ -6,7 +6,8 @@ import GetRoomsDataQuery from "../queries/getRoomsData";
 import GetNotJoinedRooms from "../queries/getNotJoinedRooms";
 import NewChatSubscriptonQuery from "../queries/newChatSubscription";
 
-import ChatRooms from "./ChatRooms";
+import ChatRoomsModal from "./ChatRoomsModal";
+import ChatRoomsAutoHide from "./ChatRoomsAutoHide";
 import ChatRoomBody from "./ChatRoomBody";
 
 const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
@@ -117,26 +118,32 @@ const Body: React.FC<{ user: any; userID: any; queryKey: any }> = ({
 	]);
 
 	return (
-		<div className="container">
+		<div className="container px-lg-5">
 			<div className="row mx-lg-n5" style={{ height: "90vh" }}>
-				{/*<ChatRooms
-					roomsInfo={roomsInfo}
-					selectedRoomIndex={selectedRoomIndex}
-					setSelectedRoomIndex={setSelectedRoomIndex}
-					notJoinedRoomsInfo={notJoinedRoomsInfo}
-					setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}
-				/>*/}
-
-				{/*<div
+				<div
 					className="modal fade"
 					id="chatRooms"
 					tabIndex={-1}
 					area-hidden="true"
 				>
 					<div className="modal-dialog">
-						<h1 className="modal-content">Hello</h1>
+						<ChatRoomsModal
+							roomsInfo={roomsInfo}
+							selectedRoomIndex={selectedRoomIndex}
+							setSelectedRoomIndex={setSelectedRoomIndex}
+							notJoinedRoomsInfo={notJoinedRoomsInfo}
+							setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}
+						/>
 					</div>
-				</div> */}
+				</div>
+
+				<ChatRoomsAutoHide
+					roomsInfo={roomsInfo}
+					selectedRoomIndex={selectedRoomIndex}
+					setSelectedRoomIndex={setSelectedRoomIndex}
+					notJoinedRoomsInfo={notJoinedRoomsInfo}
+					setSelectedNotJoinedRoomIndex={setSelectedNotJoinedRoomIndex}
+				/>
 
 				<ChatRoomBody
 					userId={userID}
