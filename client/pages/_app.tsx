@@ -19,11 +19,13 @@ import "../styles/chatText.css";
 
 import store from "../redux/store";
 
+import { SERVER, WS_SERVER } from "../server";
+
 // setup: https://github.com/apollographql/subscriptions-transport-ws/issues/333#issuecomment-359261024
 
 const wsLink = process.browser
 	? new WebSocketLink({
-			uri: "ws://localhost:5000/graphql",
+			uri: `${WS_SERVER}/graphql`,
 			options: {
 				reconnect: true,
 			},
@@ -31,7 +33,7 @@ const wsLink = process.browser
 	: null;
 
 const httpLink = new HttpLink({
-	uri: "http://localhost:5000/graphql",
+	uri: `${SERVER}/graphql`,
 	credentials: "same-origin",
 });
 
@@ -53,7 +55,7 @@ const link = process.browser
 
 const client = new ApolloClient({
 	link: link,
-	uri: "http://localhost:5000/graphql",
+	uri: `${SERVER}/graphql`,
 	cache: new InMemoryCache(),
 });
 

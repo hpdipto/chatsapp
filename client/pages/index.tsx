@@ -17,6 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { ForceAuthentication } from "../redux/actions/authActions";
 
+import { SERVER } from "../server";
+
 const Index: React.FC = () => {
 	const [userId, setUserId] = React.useState(null);
 	const [queryKey, setQueryKey] = React.useState(null);
@@ -36,7 +38,7 @@ const Index: React.FC = () => {
 		// if logged in user manually refresh page
 		// we need to load user from server
 		axios
-			.get("http://localhost:5000/user", { withCredentials: true })
+			.get(`${SERVER}/user`, { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
 					setUserId(() => res.data.userId);

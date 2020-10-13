@@ -9,12 +9,10 @@
     "export": "next build && next export && cp -R ./.next/static ./out/_next/static/",
     "type-check": "tsc"
   },
-  "proxy": "http://localhost:5000",
   "author": "Haris Pasha Dipto",
   "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.2.0",
-    "@types/node": "^14.11.1",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "apollo-link-ws": "^1.0.20",

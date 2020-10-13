@@ -13,6 +13,8 @@ import { ForceAuthentication } from "../redux/actions/authActions";
 import Navbar from "../components/Navbar";
 import { ErrorMessage } from "../components/FlashMessages";
 
+import { SERVER } from "../server";
+
 const CreateRoom: React.FC = () => {
 	const [roomIdError, setRoomIdError] = React.useState("");
 	const [userId, setUserId] = React.useState(null);
@@ -44,7 +46,7 @@ const CreateRoom: React.FC = () => {
 
 	React.useEffect(() => {
 		axios
-			.get("http://localhost:5000/user", { withCredentials: true })
+			.get(`${SERVER}/user`, { withCredentials: true })
 			.then((res) => {
 				if (res.data.hasOwnProperty("userId")) {
 					setUserId(() => res.data.userId);

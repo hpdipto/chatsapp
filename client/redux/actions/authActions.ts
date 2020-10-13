@@ -15,12 +15,14 @@ import {
 	USER_LOADING,
 } from "./types";
 
+import { SERVER } from "../../server";
+
 export const LoginAction = (loginData) => (dispatch) => {
 	// missing this one line takes many of my time :(
 	dispatch({ type: USER_LOADING });
 
 	axios
-		.post("http://localhost:5000/login", loginData, {
+		.post(`${SERVER}/login`, loginData, {
 			withCredentials: true,
 		})
 		.then((res) => {
@@ -48,7 +50,7 @@ export const LogoutAction = () => (dispatch) => {
 	dispatch({ type: USER_LOADING });
 
 	axios
-		.get("http://localhost:5000/logout", { withCredentials: true })
+		.get(`${SERVER}/logout`, { withCredentials: true })
 		.then((res) => {
 			return dispatch({
 				type: LOGOUT_SUCCESS,
