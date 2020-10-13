@@ -8,6 +8,9 @@
     "dev": "nodemon -w src -e ts,gql src/server.ts",
     "build": "tsc -p ."
   },
+  "engines": {
+    "node": "12.18.3"
+  },
   "author": "Haris Pasha Dipto",
   "license": "MIT",
   "dependencies": {
