@@ -18,7 +18,9 @@ import passportConfig from "./config/passport.config";
 passportConfig();
 
 // DB Configuration
-const URI: string = "mongodb://localhost/ChaptsApp";
+// const URI: string = "mongodb://localhost/ChaptsApp";
+const URI: string =
+	"mongodb+srv://admin:admin123@chatsapp.wt8jk.mongodb.net/ChatsApp?retryWrites=true&w=majority";
 mongoose
 	.connect(URI, {
 		useNewUrlParser: true,
