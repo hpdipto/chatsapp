@@ -8,3 +8,25 @@ For this project,
 - In frontend, I used React with NextJS. I used Redux for state management. For this particular app, Redux was not a must but it'll help to scale the project further. I also used GraphQL client to interact with backend GraphQL.
 
 The project directory structure is mostly self explanatory, the directory _backend_ contains all the code for backend. The directory _client_ contains all the codes for frontend.
+
+Here is a quick overview of the project structure:
+
+## backend
+
+In the _src_ directory almost all the code for backend is stored.
+
+The _server.ts_ is the core script to run the server for the backend.
+
+The other directories are:
+
+- config
+- models
+- resolvers
+- routes
+- schemas
+
+The directory _config_ contains password configuration with passport.js.
+The directory _models_ contains database configuration.
+The directory _resolvers_ contains the GraphQL resolvers.
+The directory _routes_ contains some API routes.
+The directory _schemas_ contains GraphQL schmeas.
