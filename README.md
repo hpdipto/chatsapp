@@ -30,3 +30,23 @@ The directory _models_ contains database configuration.
 The directory _resolvers_ contains the GraphQL resolvers.
 The directory _routes_ contains some API routes.
 The directory _schemas_ contains GraphQL schmeas.
+
+## client
+
+Inside the client directory all the frontend codes exists.
+
+The main directories of _client_ directory are:
+
+- components
+- pages
+- public
+- queries
+- redux
+- styles
+
+The directory _components_ contains all the components.
+The directory _pages_ contains all the pages in NextJS.
+The directory _public_ contains the images.
+The directory _queries_ contains client side GraphQL queries.
+The directory _redux_ contains all Redux codes.
+The directory _styles_ contains all custom CSS files.
